@@ -17,6 +17,7 @@ $(document).ready(function () {
     var width = $('#canvas').width();
     var height = $('#canvas').height();
 
+
     var speed = 10;
     var size_grid = 1;
     var size = 20;
@@ -27,6 +28,10 @@ $(document).ready(function () {
     var snake;
     var snakelength = 1;
     var game = null;
+
+
+    var сells_x = Math.round((width - (size+size_grid)) / (size+size_grid));
+    var сells_y =  Math.round((height - (size+size_grid)) / (size+size_grid));
 
     function initGame() {
         score = 0;
@@ -55,8 +60,8 @@ $(document).ready(function () {
     }
 
     function createApple() {
-        var px = Math.round(Math.random() * (width - size) / size);
-        var py = Math.round(Math.random() * (height - size) / size);
+        var px = Math.round(Math.random() * сells_x);
+        var py = Math.round(Math.random() * сells_y);
 
         //prevent the apple from appearing on snake
         for (var i = 0; i < snake.length; i++) {
@@ -116,8 +121,8 @@ $(document).ready(function () {
         ctx.fillStyle = '#424242';
         for (var xm = 0; xm < width / (size + size_grid); xm++) {
             for (var ym = 0; ym < height / (size + size_grid); ym++) {
-                ctx.fillRect(xm * (size), ym * (size), 20, 1);
-                ctx.fillRect(xm * (size), ym * (size), 1, 20);
+                ctx.fillRect(xm * ((size+size_grid)), ym * ((size+size_grid)), 20, 1);
+                ctx.fillRect(xm * ((size+size_grid)), ym * ((size+size_grid)), 1, 20);
             }
         }
 
@@ -138,8 +143,8 @@ $(document).ready(function () {
         }
 
         var end = {
-            x: (width - size) / size,
-            y: (height - size) / size
+            x: сells_x,
+            y: сells_y
         };
 
         //If the snake leaves the arena, then bring her back
@@ -173,10 +178,11 @@ $(document).ready(function () {
 
         //Draw snake
         for (var i = 0; i < snake.length; i++) {
-            if (i === snake.length - 1 || i === snake.length - 2) {
-                drawRect(snake[i].x, snake[i].y, '#405f6c');
+            //snake.length
+            if(snake.length/2>=1 && i>=snake.length/2){
+                drawRect(snake[i].x, snake[i].y, '#42809a', 0.4);
             } else {
-                drawRect(snake[i].x, snake[i].y, '#42809a');
+                drawRect(snake[i].x, snake[i].y, '#42809a', 1);
             }
         }
         //Draw apple
@@ -184,9 +190,13 @@ $(document).ready(function () {
     }
 
     //Draw rectangle
-    function drawRect(x, y, color) {
+    function drawRect(x, y, color, alpha) {
+        if(alpha == undefined){
+            alpha = 1
+        }
         ctx.fillStyle = color;
-        ctx.fillRect(x * size, y * size, size, size);
+        ctx.globalAlpha = alpha;
+        ctx.fillRect(x * (size+size_grid), y * (size+size_grid), size, size);
     }
 
     //Collision
