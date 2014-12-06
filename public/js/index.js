@@ -13,33 +13,32 @@ var socket = io.connect(window.location.protocol + '//' + window.location.host, 
 
 socket.on('game.init', function (data) {
     /*{
-        //players snakes coordinates
-        p: {
-            "player_id": [
-                [1, 2],
-                [1, 3],
-                [1, 4]
-            ],
-            "player_id2": [
-                [2, 1],
-                [2, 2]
-            ],
-        },
-        //letters coordinates
-        ws: {
-            "1 2": 'w',
-            "5 6": 'o',
-            "4 5": 'r',
-            "8 9": 'd'
-        },
-        //word
-        w: "word",
-        wt: "le mot",
-        //size of map (map is square)
-        s: 300
-    }*/
+     //players snakes coordinates
+     p: {
+     "player_id": [
+     [1, 2],
+     [1, 3],
+     [1, 4]
+     ],
+     "player_id2": [
+     [2, 1],
+     [2, 2]
+     ],
+     },
+     //letters coordinates
+     ws: {
+     "1 2": 'w',
+     "5 6": 'o',
+     "4 5": 'r',
+     "8 9": 'd'
+     },
+     //word
+     w: "word",
+     wt: "le mot",
+     //size of map (map is square)
+     s: 300
+     }*/
 });
-
 function getFormData($form) {
     var unindexed_array = $form.serializeArray();
     var indexed_array = {};
@@ -59,6 +58,7 @@ $('#enter').on('click', function () {
     socket.emit('user.info', info);
 });
 
+
 /**
  * Canvas
  */
@@ -66,6 +66,9 @@ $('#enter').on('click', function () {
 var ctx = $('#canvas')[0].getContext('2d'),
     width = $('#canvas').width(),
     height = $('#canvas').height();
+
+var сells_x = Math.round((width - (size + size_grid)) / (size + size_grid));
+сells_y = Math.round((height - (size + size_grid)) / (size + size_grid));
 
 var speed = 10,
     size_grid = 1,
@@ -77,6 +80,7 @@ var speed = 10,
     snake,
     snakelength = 1,
     game = null;
+
 
 function initGame() {
     score = 0;
@@ -105,14 +109,15 @@ function createSnake() {
 }
 
 function createApple() {
-    var px = Math.round(Math.random() * (width - size) / size);
-    var py = Math.round(Math.random() * (height - size) / size);
+    var px = Math.round(Math.random() * сells_x);
+    var py = Math.round(Math.random() * сells_y);
 
     //prevent the apple from appearing on snake
     for (var i = 0; i < snake.length; i++) {
         if (px === snake[i].x && py === snake[i].y) {
             return createApple();
         }
+
     }
 
     apple = {
@@ -165,8 +170,8 @@ function render() {
     ctx.fillStyle = '#424242';
     for (var xm = 0; xm < width / (size + size_grid); xm++) {
         for (var ym = 0; ym < height / (size + size_grid); ym++) {
-            ctx.fillRect(xm * (size), ym * (size), 20, 1);
-            ctx.fillRect(xm * (size), ym * (size), 1, 20);
+            ctx.fillRect(xm * ((size + size_grid)), ym * ((size + size_grid)), 20, 1);
+            ctx.fillRect(xm * ((size + size_grid)), ym * ((size + size_grid)), 1, 20);
         }
     }
 
@@ -187,8 +192,8 @@ function render() {
     }
 
     var end = {
-        x: (width - size) / size,
-        y: (height - size) / size
+        x: сells_x,
+        y: сells_y
     };
 
     //If the snake leaves the arena, then bring her back
@@ -221,11 +226,17 @@ function render() {
     }
 
     //Draw snake
+    // 3 5 7 9
+    // 0.9 0.8 0.7 0.6
+    var min = 0.3;
+    var max = 1;
+    var step = (max - min) / (snake.length / 2);
     for (var i = 0; i < snake.length; i++) {
-        if (i === snake.length - 1 || i === snake.length - 2) {
-            drawRect(snake[i].x, snake[i].y, '#405f6c');
+        if (snake.length / 2 >= 1 && i >= snake.length / 2) {
+
+            drawRect(snake[i].x, snake[i].y, '#42809a', max + (snake.length / 2 - i) * step);
         } else {
-            drawRect(snake[i].x, snake[i].y, '#42809a');
+            drawRect(snake[i].x, snake[i].y, '#42809a', 1);
         }
     }
     //Draw apple
@@ -233,9 +244,15 @@ function render() {
 }
 
 //Draw rectangle
-function drawRect(x, y, color) {
+function drawRect(x, y, color, alpha) {
+    if (alpha == undefined) {
+        alpha = 1
+    } else if (alpha < 0.3) {
+        alpha = 0.3
+    }
     ctx.fillStyle = color;
-    ctx.fillRect(x * size, y * size, size, size);
+    ctx.globalAlpha = alpha;
+    ctx.fillRect(x * (size + size_grid), y * (size + size_grid), size, size);
 }
 
 //Collision
