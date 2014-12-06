@@ -50,16 +50,16 @@ io.sockets.on('connection', function(socket) {
     if (clients.hasWaiting()) {
       var game = new Game(io, clients.getWaiting());
 
-      game.on('ended',function() {
+      game.on('ended', function() {
         this.clients.forEach(function(v) {
           clients.setPending(this);
         });
       });
     }
-
   });
 
   socket.on('user.info', function(data) {
+    console.log('user.info' + "  " + data);
     this.nickname = data.name;
     this.data = data;
   });
@@ -67,16 +67,19 @@ io.sockets.on('connection', function(socket) {
   socket.on('user.game.ready', function() {
     //send (in room) message to start game
     if (this.game.isTeamReady()) {
+      console.log('user.game.ready' + "  " + this.game.room);
       io.sockets.in(this.game.room).emit('game.start');
     }
   });
 
   socket.on('user.game.position', function(data) {
-    io.sockets.in(this.game.room).emit('user.game.consume',data);
+    console.log('user.game.position' + "  " + data);
+    io.sockets.in(this.game.room).emit('user.game.consume', data);
   });
 
   socket.on('user.game.consume', function(data) {
-    io.sockets.in(this.game.room).emit('user.game.consume',data);
+    console.log('user.game.consume' + "  " + data);
+    io.sockets.in(this.game.room).emit('user.game.consume', data);
   });
 });
 

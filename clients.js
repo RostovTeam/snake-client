@@ -71,7 +71,7 @@ function Clients() {
   }
 
   function removeFromArray(obj, array) {
-    var index = array.indexOf(ob);
+    var index = array.indexOf(obj);
     if (index > -1) {
       array.splice(index, 1);
     }

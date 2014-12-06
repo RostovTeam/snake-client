@@ -62,10 +62,13 @@ function init() {
     }
     data.p=ps;
     
+
+    console.log('game.init'+"  "+data);
     this.io.in(this.room).emit('game.init', data);
 }
 
 Game.prototype.end = function(reason) {
+    console.log('game.over'+"  "+reason);
     this.io.in(this.room).emit('game.over', {
         reason: reason
     });
