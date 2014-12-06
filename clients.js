@@ -29,11 +29,11 @@ function Clients() {
 
     var langHash = getLanguangeHash(client.info);
 
-    this.langClients[langHash] = this.langClients[langHash] || [];
-    this.waitingLangClients = this.waitingLangClients[langHash] || [];
+    this.waitingLangClients[langHash] = this.waitingLangClients[langHash] || [];
 
-    this.langClients[langHash].push(client);
     this.waitingLangClients[langHash].push(client);
+
+    this.emit('setInfo', client);
   }
 
   this.setWaiting = function() {
@@ -42,8 +42,11 @@ function Clients() {
   }
 
   this.hasWaiting = function() {
+
+    console.log(JSON.stringify(this.waitingLangClients));
+    
     for (var k in this.waitingLangClients)
-      if (this.waitingLangClients >= 2)
+      if (this.waitingLangClients[k].length >= 2)
         return true;
 
     return false;
@@ -51,7 +54,7 @@ function Clients() {
 
   this.getWaiting = function() {
     for (var k in this.waitingLangClients)
-      if (this.waitingLangClients[k] >= 2)
+      if (this.waitingLangClients[k].length >= 2)
         return this.waitingLangClients[k].splice(0,2);
 
     return [];
@@ -64,7 +67,6 @@ function Clients() {
       var langHash = getLanguangeHash(client.info);
 
       removeFromArray(client, this.waitingLangClients[langHash]);
-      removeFromArray(client, this.langClients[langHash]);
     }
 
     removeFromArray(client,this.clients);
