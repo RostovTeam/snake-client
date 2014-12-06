@@ -1,4 +1,16 @@
-/* globals $: false */
+/* globals $: false, io: false */
+
+var socket = io.connect(window.location.protocol + '//' + window.location.host, {
+    'transports': [
+        'websocket',
+        'flashsocket',
+        'htmlfile',
+        'xhr-polling',
+        'jsonp-polling',
+        'polling'
+    ]
+});
+
 $(document).ready(function () {
     //canvas
     var ctx = $('#canvas')[0].getContext('2d');
