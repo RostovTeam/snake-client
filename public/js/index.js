@@ -18,6 +18,7 @@ $(document).ready(function () {
     var height = $('#canvas').height();
 
     var speed = 10;
+    var size_grid = 1;
     var size = 20;
     var direction;
     var direction_queue;
@@ -108,16 +109,17 @@ $(document).ready(function () {
     //Draw our game
     function render() {
         //Draw background
-        ctx.fillStyle = '#3CB371';
+        ctx.fillStyle = '#3d3d3d';
         ctx.fillRect(0, 0, width, height);
-        ctx.strokeStyle = '#000000';
-        ctx.strokeRect(0, 0, width, height);
 
-        //Draw background score
-        ctx.fillStyle = '#7CF381';
-        ctx.font = '72pt fixedsys';
-        ctx.fillText('SCORE', width / 2, height / 2);
-        ctx.fillText(score, width / 2, height / 2 + 85);
+        //Draw grid
+        ctx.fillStyle = '#424242';
+        for (var xm = 0; xm < width / (size + size_grid); xm++) {
+            for (var ym = 0; ym < height / (size + size_grid); ym++) {
+                ctx.fillRect(xm * (size), ym * (size), 20, 1);
+                ctx.fillRect(xm * (size), ym * (size), 1, 20);
+            }
+        }
 
         var head = {
             x: snake[0].x,
@@ -171,23 +173,15 @@ $(document).ready(function () {
 
         //Draw snake
         for (var i = 0; i < snake.length; i++) {
-            if (i === 0) {
-                drawRect(snake[i].x, snake[i].y, '#000000');
+            if (i === snake.length - 1 || i === snake.length - 2) {
+                drawRect(snake[i].x, snake[i].y, '#405f6c');
             } else {
-                drawRect(snake[i].x, snake[i].y, '#DCF381');
+                drawRect(snake[i].x, snake[i].y, '#42809a');
             }
         }
         //Draw apple
         drawRect(apple.x, apple.y, '#9CF381');
     }
-
-    //Draw inline rectangle
-    // function drawInlineRect(x, y, color) {
-    //     ctx.fillStyle = color;
-    //     ctx.fillRect(x * size, y * size, size, size);
-    //     ctx.strokeStyle = '#000000';
-    //     ctx.strokeRect(x * size, y * size, size, size);
-    // }
 
     //Draw rectangle
     function drawRect(x, y, color) {
