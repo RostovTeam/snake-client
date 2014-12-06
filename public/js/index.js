@@ -67,8 +67,6 @@ var ctx = $('#canvas')[0].getContext('2d'),
     width = $('#canvas').width(),
     height = $('#canvas').height();
 
-var сells_x = Math.round((width - (size + size_grid)) / (size + size_grid));
-сells_y = Math.round((height - (size + size_grid)) / (size + size_grid));
 
 var speed = 10,
     size_grid = 1,
@@ -81,6 +79,8 @@ var speed = 10,
     snakelength = 1,
     game = null;
 
+var сells_x = Math.round((width - (size + size_grid)) / (size + size_grid)),
+    сells_y = Math.round((height - (size + size_grid)) / (size + size_grid));
 
 function initGame() {
     score = 0;
