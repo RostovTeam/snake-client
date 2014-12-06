@@ -177,10 +177,15 @@ $(document).ready(function () {
         }
 
         //Draw snake
+        // 3 5 7 9
+        // 0.9 0.8 0.7 0.6
+        var min = 0.3;
+        var max = 1;
+        var step = (max-min)/ (snake.length /2);
         for (var i = 0; i < snake.length; i++) {
-            //snake.length
             if(snake.length/2>=1 && i>=snake.length/2){
-                drawRect(snake[i].x, snake[i].y, '#42809a', 0.4);
+
+                drawRect(snake[i].x, snake[i].y, '#42809a', max+(snake.length/2-i)*step);
             } else {
                 drawRect(snake[i].x, snake[i].y, '#42809a', 1);
             }
@@ -193,6 +198,8 @@ $(document).ready(function () {
     function drawRect(x, y, color, alpha) {
         if(alpha == undefined){
             alpha = 1
+        }else if(alpha<0.3){
+            alpha = 0.3
         }
         ctx.fillStyle = color;
         ctx.globalAlpha = alpha;
