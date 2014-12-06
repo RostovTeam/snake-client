@@ -10,7 +10,7 @@ function Clients() {
 
   this.waitingLangClients = {};
 
-  this.addNew = function(client) {
+  this.add = function(client) {
     var self = this;
 
     client.on('disconnect', function() {
@@ -71,7 +71,7 @@ function Clients() {
   }
 
   function removeFromArray(obj, array) {
-    var index = array.indexOf(client);
+    var index = array.indexOf(ob);
     if (index > -1) {
       array.splice(index, 1);
     }
@@ -84,3 +84,5 @@ function getLanguangeHash(info) {
 }
 
 util.inherits(Clients, EventEmitter);
+
+module.exports=Clients;

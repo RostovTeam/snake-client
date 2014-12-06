@@ -1,7 +1,7 @@
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 
-var shared = require('./../public/js/shared');
+var shared = require('./public/js/shared');
 
 var Game = function(io, clients) {
     this.io = io;
@@ -12,9 +12,9 @@ var Game = function(io, clients) {
 
     this.isTeamReady = function()
     {
-        var _is_team_ready=0;
+        var _is_team_ready=1;
         this.clients.forEach(function(v){
-            _is_team_ready&=v.is_ready;
+            _is_team_ready &=v.is_ready;
         });
 
         return _is_team_ready;
@@ -83,7 +83,7 @@ function getRandomCoordinate(map_size, init_snake_size) {
 
 function getSnakeInitCoodinates(pos, map_size, init_snake_size) {
     var start, end, coords=[];
-    swtich(pos) {
+    switch(pos) {
         case 0:
             start = [0, 0];
             end = [

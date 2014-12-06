@@ -2,6 +2,10 @@ var express = require('express'),
   path = require('path');
 
 
+
+var Game = require('./game');
+var Clients = require('./clients');
+
 /**
  * Create Express server.
  */
@@ -46,7 +50,7 @@ io.sockets.on('connection', function(socket) {
     if (clients.hasWaiting()) {
       var game = new Game(io, clients.getWaiting());
 
-      game.on('ended'.function() {
+      game.on('ended',function() {
         this.clients.forEach(function(v) {
           clients.setPending(this);
         });
