@@ -58,7 +58,7 @@ function Clients() {
 
     this.hasWaiting = function () {
 
-        console.log("has waiting: "+JSON.stringify(this.waitingLangClients));
+        console.log("has waiting: "+util.inspect(this.waitingLangClients));
         for (var k in this.waitingLangClients)
             if (this.waitingLangClients[k].length >= this.waitingLangClients[k].mode)
                 return true;
