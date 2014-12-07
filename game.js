@@ -110,7 +110,7 @@ function getSnakeInitCoodinates(pos, map_size, init_snake_size) {
             end = [
                 0, init_snake_size
             ];
-            
+
             break;
         case 1:
 
