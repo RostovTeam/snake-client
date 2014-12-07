@@ -1,28 +1,29 @@
 var request = require("request");
 
-function Words() {
-    this.wordnik = {
-        'hasDictionaryDef': false,
-        'minCorpusCount': 0,
-        'maxCorpusCount': -1,
-        'minDictionaryCount': 1,
-        'maxDictionaryCount': -1,
-        'maxLength': 15,
-        'minLength': 7,
-        'api_key': 'a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5'
-    };
-    this.googleTranslate = {
-        'client': 't',
-        'hl': 'en', //откуда
-        'tl': 'fr', //куда
-        'ie': 'UTF-8',
-        'oe': 'UTF-8'
-    };
+
+function Words(hl,tr) {
+	this.wordnik = {
+		'hasDictionaryDef':false,
+		'minCorpusCount':0,
+		'maxCorpusCount':-1,
+		'minDictionaryCount':1,
+		'maxDictionaryCount':-1,
+		'maxLength':15,
+		'minLength':7,
+		'api_key':'a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5'
+	};
+	this.googleTranslate = {
+		'client':'t',
+		'hl':hl, //откуда 'en'
+		'tl':tr, //куда 'fr'
+		'ie':'UTF-8',
+		'oe':'UTF-8'
+	};
 }
 
-Words.prototype.getWordAndTr = function (callback) {
-    var h = this.getTranslateWord.bind(this, callback);
-    this.getWord(h);
+Words.prototype.getWordAndTr = function(callback){
+	var h = this.getTranslateWord.bind(this,callback);
+	this.getWord(h);
 }
 
 Words.prototype.getWord = function (callback) {
@@ -53,10 +54,13 @@ Words.prototype.getTranslateWord = function (callback, word) {
     });
 }
 
+Words.prototype.langList = function() {
+	return JSON.stringify({'ru':'Russian','fr':'Franch','de':'German'});
+}
 
-module.exports = Words;
-//
-//var word = new Words();
+//var word = new Words('en','fr');
 //word.getWordAndTr(function(v){
 //	console.log(JSON.stringify(v));
 //});
+//console.log(word.langList());
+module.exports = Words;

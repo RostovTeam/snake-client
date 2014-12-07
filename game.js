@@ -89,15 +89,27 @@ Game.prototype.checkGameState = function (position) {
         for (var i = 0; i < this.data.p[key].length; i++) {
             for (var j = 0; j < position.coords.length; j++) {
                 if (this.data.p[key][i].x == position.coords[j].x && this.data.p[key][i].y == position.coords[j].y) {
-                    
-                    collisions.push([position.client, key]);
+
+                    //reduce one letter
+                    var w1 = this.data.pl[position.client];
+                    var w2 = this.data.pl[key];
+                    var l1 = w1.substring(w1.length - 1, w1.length);
+                    var l2 = w2.substring(w2.length - 1, w2.length);
+                    this.data.pl[position.client]=w1.substring(0,w1.length-1);
+                    this.data.pl[key]=w2.substring(0,w2.length-1);
+
+                    var _ls={};
+                    _ls[getCoordHash(getRandomCoordinate(size, Game.INIT_SNAKE_SIZE))]=l1;
+                    _ls[getCoordHash(getRandomCoordinate(size, Game.INIT_SNAKE_SIZE))]=l2;
+
+                    collisions.push({clients:[position.client, key],letters:_ls});
                 }
             }
         }
     }
 
     //send collisions
-    if(collisions.length) {
+    if (collisions.length) {
         console.log('game.collision' + "  " + JSON.stringify(collisions));
         this.io.in(this.room).emit('game.collision', collisions);
     }
@@ -109,7 +121,7 @@ Game.prototype.checkGameState = function (position) {
         coods_hash.push(getCoordHash(position.coords[j]));
     }
 
-    var  consumes=[];
+    var consumes = [];
 
     for (var key in this.data.ws) {
         if (coods_hash.indexOf(key) == -1) {
@@ -128,17 +140,17 @@ Game.prototype.checkGameState = function (position) {
         }
         else {
 
-            var _c={};
-            _c[key]=l;
+            var _c = {};
+            _c[key] = l;
             delete  this.data.ws[key];
             consumes.push(_c);
             this.data.pl[position.client] += l;
         }
     }
     //send consumes
-    if(consumes.length) {
-        var r={};
-        r[position.client]=consumes;
+    if (consumes.length) {
+        var r = {};
+        r[position.client] = consumes;
         console.log('game.consume' + "  " + JSON.stringify(r));
         this.io.in(this.room).emit('game.consume', r);
     }
@@ -232,7 +244,7 @@ function getSnakeInitCoodinates(pos, map_size, init_snake_size) {
         var _c = [];
         _c[c] = start[c];
         _c[nc] = i;
-        coords.push({x:_c[0],y:_c[1]});
+        coords.push({x: _c[0], y: _c[1]});
     }
 
     return coords;
