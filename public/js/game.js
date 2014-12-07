@@ -1,7 +1,7 @@
 /**
  * Created by vdaron on 07.12.14.
  */
-var game = function (_canvas, snakes, word_l, size,info, snake_ss) {
+var game = function (_canvas, snakes, word_l, size,info, snake_size) {
 /*
         min_alpha = 0.2,
         max_alpha = 1,
@@ -24,33 +24,7 @@ var game = function (_canvas, snakes, word_l, size,info, snake_ss) {
     this.ws = word_l;
 
     for(var key in snakes){
-        var position = [];
-        for(var i = 0; i < snake_ss; i++){
-            if(i==0)
-                position.push({
-                    x: snakes[key].x,
-                    y: snakes[key].y
-                });
-
-            else{
-                if(snakes[key].y == 0){
-                    position.push({
-                        x: snakes[key].x,
-                        y: snakes[key].y+i
-                    });
-                }
-                if(snakes[key].y == size-1){
-
-                    position.push({
-                        x: snakes[key].x,
-                        y: snakes[key].y-i
-                    });
-                }
-
-            }
-        }
-
-        this.snakes[key] = new snake(position);
+        this.snakes[key] = new snake(snakes[key],snake_size ,size);
     }
 
 
@@ -68,8 +42,7 @@ game.prototype.stop = function () {
 }
 
 game.prototype.addLetter = function (letter){
-    key = Object.keys(letter)[0];
-    this.ws[key] = letter[key];
+    $.extend(this.ws , letter);
 }
 
 game.prototype.setSnake = function (key, positions){

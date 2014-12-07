@@ -1,16 +1,44 @@
 /**
  * Created by vdaron on 07.12.14.
  */
-var snake = function(cord){
+var snake = function(cord, size, size_field){
     this.consume = false;
     this.segments = [];
     this.def_position = cord;
+    this.max_y = size_field;
+
+    for(var i = 0; i < size; i++){
+        if(i==0)
+            this.segments.push({
+                x: cord.x,
+                y: cord.y
+            });
+
+        else{
+            if(cord.y == 0){
+                this.segments.push({
+                    x: cord.x,
+                    y: cord.y+i
+                });
+            }
+            if(cord.y == this.max_y-1){
+
+                this.segments.push({
+                    x: cord.x,
+                    y: cord.y-i
+                });
+            }
+
+        }
+    }
+    /*
     for (var i = cord.length-1; i >= 0; i--) {
         this.segments.push({
             x: cord[i].x,
             y: cord[i].y
         });
     }
+    */
 }
 snake.prototype.sync = function(cord){
     this.segments = [];
@@ -62,12 +90,33 @@ snake.prototype.move = function(direction, end){
 }
 
 snake.prototype.reset = function(){
+
+    var l = this.segments.length
     this.segments = [];
-    for (var i = this.def_position.length-1; i >= 0; i--) {
-        this.segments.push({
-            x: this.def_position[i].x,
-            y: this.def_position[i].y
-        });
+
+    for(var i = 0; i < l; i++){
+        if(i==0)
+            this.segments.push({
+                x: this.def_position.x,
+                y: this.def_position.y
+            });
+
+        else{
+            if(this.def_position.y == 0){
+                this.segments.push({
+                    x: this.def_position.x,
+                    y: this.def_position.y+i
+                });
+            }
+            if(this.def_position.y == this.max_y-1){
+
+                this.segments.push({
+                    x: this.def_position.x,
+                    y: this.def_position.y-i
+                });
+            }
+
+        }
     }
 }
 
