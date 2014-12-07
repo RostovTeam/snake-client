@@ -47,7 +47,13 @@ io.sockets.on('connection', function (socket) {
 
     function createGame(user) {
         if (clients.hasWaiting()) {
-            var game = new Game(io, clients.getWaiting());
+
+            var waiting_game = clients.getWaiting();
+
+            if (!waiting_game)
+                return;
+
+            var game = new Game(io,waiting_game);
 
             game.on('ended', function () {
                 var self = this;
@@ -55,7 +61,7 @@ io.sockets.on('connection', function (socket) {
                     clients.setWaiting(v);
                     v.game = null;
                     v.is_ready = false;
-                    v.left(self.room);
+                    v.leave(self.room);
                 });
             });
         }

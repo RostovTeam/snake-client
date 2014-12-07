@@ -14,8 +14,9 @@ function Clients() {
         var self = this;
 
         client.on('disconnect', function () {
-            self.remove(client);
-            self.emit('left', client);
+            console.log('user.disconnected' + '  ' + this.id);
+            self.remove(this);
+            self.emit('left', this);
         });
 
         this.clients.push(client);
@@ -65,14 +66,23 @@ function Clients() {
     };
 
     this.getWaiting = function () {
+        var clients = [];
+
         for (var k in this.waitingLangClients) {
 
             var mode = this.waitingLangClients[k].mode;
             if (this.waitingLangClients[k].length >= mode)
-                return this.waitingLangClients[k].splice(0, mode);
-
+                clients.push(this.waitingLangClients[k].splice(0, mode));
         }
-        return [];
+
+        var has_disconnected = false;
+        clients.forEach(function (v) {
+            has_disconnected |= v.disconnected;
+        })
+        if (!clients.length || has_disconnected)
+            return null;
+
+        return clients;
     }
 
     this.remove = function (client) {
@@ -93,7 +103,7 @@ function getPlayMode(mode) {
 }
 
 function removeFromArray(obj, array) {
-    if(!array || !array.hasOwnProperty('indexOf') || !array.hasOwnProperty('splice'))
+    if (!array || !array.hasOwnProperty('indexOf') || !array.hasOwnProperty('splice'))
         return;
 
     var index = array.indexOf(obj);
