@@ -126,7 +126,9 @@ Game.prototype.checkGameState = function (position) {
             this.io.in(this.room).emit('game.reset', {client: position.client});
         }
         else {
-            consumes[position.client].push({key: l});
+            var _c={};
+            _c[key]=l;
+            consumes[position.client].push(_cgit );
             this.data.pl[position.client] += l;
         }
     }
