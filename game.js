@@ -71,7 +71,6 @@ Game.prototype.checkGameState = function (position) {
 
     this.data.p[position.client] = position.coords;
     var collisions = [];
-    var consumes = [];
 
     for (var key in this.data.p) {
         if (key == position.client)
@@ -95,12 +94,16 @@ Game.prototype.checkGameState = function (position) {
         coods_hash.push(position.coords[i][0] + ' ' + position.coords[i][1]);
     }
 
+
+    var consumes = {};
+    consumes[position.client] = [];
+
     for (var key in this.data.ws) {
         if (coods_hash.indexOf(key) == -1) {
             continue;
         }
         var l = this.data.ws[key];
-        consumes.push({key: l});
+        consumes[position.client] .push({key: l});
 
         // check if letter is in correct order
         var consumed = this.data.pl[position.client];
@@ -114,7 +117,7 @@ Game.prototype.checkGameState = function (position) {
         }
     }
     //send consumes
-    this.io.in(this.room).emit('game.collision', consumes);
+    this.io.in(this.room).emit('game.consumes', consumes);
 
     //check end game
     for (var c in this.data.pl) {
