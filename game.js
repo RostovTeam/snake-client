@@ -63,6 +63,7 @@ Game.prototype.end = function(reason) {
     this.io.in(this.room).emit('game.over', {
         reason: reason
     });
+
     this.emit('ended');
 };
 
@@ -104,10 +105,12 @@ function getSnakeInitCoodinates(pos, map_size, init_snake_size) {
     var c, start, end, coords = [];
     switch (pos) {
         case 0:
+
             start = [0, 0];
             end = [
                 0, init_snake_size
             ];
+            
             break;
         case 1:
 
