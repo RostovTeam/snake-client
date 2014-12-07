@@ -1,13 +1,13 @@
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
-var Words= require('./api');
+var Words = require('./api');
 
 //var shared = require('./public/js/shared');
 
 var Game = function (io, clients) {
     this.io = io;
 
-    this.dict=new Words();
+    this.dict = new Words();
 
     this.clients = clients;
 
@@ -42,9 +42,9 @@ function init() {
         });
     }
 
-    var self=this;
+    var self = this;
 
-    this.dict.getWordAndTr(function(res){
+    this.dict.getWordAndTr(function (res) {
 
         var data = {};
         //get word to learn
@@ -88,7 +88,7 @@ Game.prototype.checkGameState = function (position) {
 
         for (var i = 0; i < this.data.p[key].length; i++) {
             for (var j = 0; j < position.coords.length; j++) {
-                if (this.data.p[key][i][0] == position.coords[j][0] && this.data.p[key][i][1] == position.coords[j][1])
+                if (this.data.p[key][i].x == position.coords[j].x && this.data.p[key][i].y == position.coords[j].y)
                     collisions.push([position.client, key]);
             }
         }
@@ -102,7 +102,7 @@ Game.prototype.checkGameState = function (position) {
     var coods_hash = [];
 
     for (var j = 0; j < position.coords.length; j++) {
-        coods_hash.push(position.coords[j][0] + ' ' + position.coords[j][1]);
+        coods_hash.push(getCoordHash(position.coords[j]));
     }
 
     var consumes = {};
@@ -113,7 +113,7 @@ Game.prototype.checkGameState = function (position) {
             continue;
         }
         var l = this.data.ws[key];
-        consumes[position.client] .push({key: l});
+        consumes[position.client].push({key: l});
 
         // check if letter is in correct order
         var consumed = this.data.pl[position.client];
@@ -121,7 +121,7 @@ Game.prototype.checkGameState = function (position) {
         var nex_l = word[consumed.length];
         if (nex_l != l) {
             //choosed wrong letter, reset
-            this.io.in(this.room).emit('game.reset', {client:position.client});
+            this.io.in(this.room).emit('game.reset', {client: position.client});
         }
         else {
             this.data.pl[position.client] += l;
@@ -168,18 +168,22 @@ function getLetterCoordinates(word, size, players) {
 
     var coords = {};
     for (i = 0; i < letters.length; i++) {
-        coords[getRandomCoordinate(size, Game.INIT_SNAKE_SIZE).join(' ')] = letters[i];
+        coords[getCoordHash(getRandomCoordinate(size, Game.INIT_SNAKE_SIZE))] = letters[i];
     }
     return coords;
+}
+
+function getCoordHash(c) {
+    return c.x + ' ' + c.y;
 }
 
 function getRandomCoordinate(map_size, init_snake_size) {
     var max = map_size - init_snake_size;
     var min = init_snake_size;
-    return [
-        Math.ceil(Math.random() * (max - min) + min),
-        Math.ceil(Math.random() * (max - min) + min)
-    ];
+    return {
+        x: Math.ceil(Math.random() * (max - min) + min),
+        y: Math.ceil(Math.random() * (max - min) + min)
+    };
 }
 
 function getSnakeInitCoodinates(pos, map_size, init_snake_size) {
@@ -218,7 +222,7 @@ function getSnakeInitCoodinates(pos, map_size, init_snake_size) {
         coords.push(_c);
     }
 
-    return coords;
+    return {x: coords[0], y: coords[1]};
 }
 
 module.exports = Game;
