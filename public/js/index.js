@@ -1,5 +1,3 @@
-/* globals $: false, io: false */
-
 var socket = io.connect(window.location.protocol + '//' + window.location.host, {
     'transports': [
         'websocket',
@@ -10,6 +8,7 @@ var socket = io.connect(window.location.protocol + '//' + window.location.host, 
         'polling'
     ]
 });
+
 
 socket.on('game.init', function (data) {
     /*{
@@ -38,11 +37,40 @@ socket.on('game.init', function (data) {
      //size of map (map is square)
      s: 300
      }*/
-    console.log(data);
 
-    initGame(data);
+    var  _game = new game(
+        $('#canvas')[0],
+        data.p,
+        data.ws,
+        data.s,
+        info
+    )
+    _game.render();
 
+    if(info.mode == 1){
+        _game.start();
+        $(document).keydown(function (e) {
+            _game.onKeydown(e);
+        });
+    }
+    else{
+        socket.emit('user.game.ready');
+        socket.on('game.start',function(data){
+            _game.start();
+            $(document).keydown(function (e) {
+                _game.onKeydown(e);
+            });
+        })
+    }
 });
+
+
+$(function(){
+    $('#myModal1').modal({
+        backdrop: 'static',
+        keyboard: false
+    });
+})
 
 function getFormData($form) {
     var unindexed_array = $form.serializeArray();
@@ -54,12 +82,13 @@ function getFormData($form) {
     return indexed_array;
 }
 
-$('#enter').on('click', function () {
-    var info = getFormData($('form'));
+$('#save').on('click', function () {
+    info = getFormData($('form'));
     if (!info.nickname || !info.nickname.length) {
         alert('Nickname is empty');
-        return;
+        return false;
     }
+
     socket.emit('user.info', info);
 });
 
@@ -77,7 +106,7 @@ var speed        = 5,
     size_grid    = 1,
     size         = 20,
     snake_length = 1,
-    game         = null,
+    _game         = null,
     min_alpha    = 0.2,
     max_alpha    = 1,
     player_1     = "#42809a",
@@ -87,141 +116,55 @@ var speed        = 5,
     direction_queue,
     apple,
     score,
-    snake;
+    info,
+    snakes = {};
 
-var сells_x = Math.round((width - (size + size_grid)) / (size + size_grid)),
-    сells_y = Math.round((height - (size + size_grid)) / (size + size_grid));
+var сells_x,
+    сells_y;
 
 function initGame(data) {
     score = 0;
-    direction = 'right';
-    direction_queue = 'right';
+    direction = 'down';
+    direction_queue = 'down';
     ws = data.ws;
     width  = ctx.canvas.width = data.s*(size+size_grid);
     height = ctx.canvas.height = data.s*(size+size_grid);
 
+    сells_x = Math.round((width - (size + size_grid)) / (size + size_grid));
+    сells_y = Math.round((height - (size + size_grid)) / (size + size_grid));
 
-    createSnake();
-    createApple();
-    clearGameLoop();
-    game = setInterval(render, 1000 / speed);
-}
 
-function clearGameLoop() {
-    if (typeof game !== 'undefined' && game !== null) {
-        clearInterval(game);
-    }
-}
-
-function createSnake() {
-    snake = [];
-    for (var i = snake_length; i > 0; i--) {
-        snake.push({
-            x: i - 2,
-            y: 0
-        });
-    }
-}
-
-function createApple() {
-    var px = Math.round(Math.random() * сells_x);
-    var py = Math.round(Math.random() * сells_y);
-
-    //prevent the apple from appearing on snake
-    for (var i = 0; i < snake.length; i++) {
-        if (px === snake[i].x && py === snake[i].y) {
-            return createApple();
-        }
-
+    for(key in data.p){
+        snakes[key] = new snake(data.p[key]);
     }
 
-    apple = {
-        x: px,
-        y: py
-    };
 
+    _game = setInterval(render, 1000 / speed);
 }
 
-function drawMain() {
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(0, 0, width, height);
-
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '40pt fixedsys';
-    ctx.textAlign = 'center';
-    ctx.fillText('SNAKE', width / 2, height / 2 - 70);
-
-    ctx.font = '25pt fixedsys';
-    ctx.fillText('USE THE ARROW KEYS', width / 2, height / 2 + 30);
-
-    ctx.font = '12pt fixedsys';
-    ctx.fillText('(Press return to start)', width / 2, height / 2 + 60);
-}
-drawMain();
-
-
-function drawGameover() {
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(0, 0, width, height);
-
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '40pt fixedsys';
-    ctx.fillText('GAME OVER', width / 2, height / 2);
-
-    ctx.font = '25pt fixedsys';
-    ctx.fillText('YOUR SCORE: ' + score, width / 2, height / 2 + 60);
-
-    ctx.font = '12pt fixedsys';
-    ctx.fillText('(Press return to restart)', width / 2, height / 2 + 84);
-}
 
 //Draw our game
 function render() {
-    //Draw background
-    ctx.fillStyle = '#3d3d3d';
-    ctx.fillRect(0, 0, width, height);
+    var canv = new canvas($('#canvas')[0], width, height);
+    canv.clear('#3d3d3d');
+    canv.DrawGrid('#424242');
 
-    //Draw grid
-    ctx.fillStyle = '#424242';
-    for (var xm = 0; xm < width / (size + size_grid); xm++) {
-        for (var ym = 0; ym < height / (size + size_grid); ym++) {
-            ctx.fillRect(xm * ((size + size_grid))-size_grid, ym * ((size + size_grid))-size_grid, size+size_grid, size_grid);
-            ctx.fillRect(xm * ((size + size_grid))-size_grid, ym * ((size + size_grid))-size_grid, size_grid, size+size_grid);
-        }
-    }
 
-    var head = {
-        x: snake[0].x,
-        y: snake[0].y
-    };
 
     direction = direction_queue;
-    if (direction === 'right') {
-        head.x++;
-    } else if (direction === 'left') {
-        head.x--;
-    } else if (direction === 'up') {
-        head.y--;
-    } else if (direction === 'down') {
-        head.y++;
-    }
 
     var end = {
         x: сells_x,
         y: сells_y
     };
 
-    //If the snake leaves the arena, then bring her back
-    if (head.x > end.x) {
-        head.x = 0;
-    } else if (head.x < 0) {
-        head.x = end.x;
-    } else if (head.y > end.y) {
-        head.y = 0;
-    } else if (head.y < 0) {
-        head.y = end.y;
+    snakes[info.nickname].move(direction, end);
+
+    for(key in snakes){
+        canv.drawSnake(snakes[key].segments, player_1);
     }
 
+/*
     if (checkCollision(head.x, head.y, snake)) {
         clearGameLoop();
         drawGameover();
@@ -239,72 +182,7 @@ function render() {
         //add element to array, to keep the length
         snake.unshift(head);
     }
-
-    //Draw snake
-    var step = (max_alpha - min_alpha) / (snake.length / 2);
-
-    for (var i = 0; i < snake.length; i++) {
-        if (snake.length / 2 >= 1 && i >= snake.length / 2) {
-
-            drawRect(snake[i].x, snake[i].y, player_1, max_alpha + (snake.length / 2 - i) * step);
-        } else {
-            drawRect(snake[i].x, snake[i].y, player_1, 1);
-        }
-    }
-    //Draw letters
-    drawWord(ws, '#9CF381');
+ */
 }
 
-function drawWord(ws,color){
-    for(var key in ws){
-        var x = key.split(" ")[0],
-            y = key.split(" ")[1],
-            letter = ws[key];
-        //console.log("x="+x+" y="+y+" letter="+letter);
-        drawLetter(x, y, letter, color);
-    }
-}
 
-//Draw rectangle
-function drawRect(x, y, color, alpha) {
-    if (alpha == undefined) {
-        alpha = max_alpha;
-    } else if (alpha < min_alpha) {
-        alpha = min_alpha;
-    }
-    ctx.fillStyle = color;
-    ctx.globalAlpha = alpha;
-    ctx.fillRect(x * (size + size_grid), y * (size + size_grid), size, size);
-}
-
-function drawLetter(x, y, letter, color){
-    ctx.fillStyle = color;
-    ctx.font = '13pt fixedsys';
-    ctx.fillText(letter, x * (size + size_grid)+5, y * (size + size_grid)+15);
-}
-
-//Collision
-function checkCollision(x, y, array) {
-    for (var i = 2; i < array.length - 1; i++) {
-        if (array[i].x === x && array[i].y === y) {
-            return true;
-        }
-    }
-    return false;
-}
-
-//Controls
-$(document).keydown(function (e) {
-    var key = e.which;
-    if (key === 37 && direction !== 'right') {
-        direction_queue = 'left';
-    } else if (key === 38 && direction !== 'down') {
-        direction_queue = 'up';
-    } else if (key === 39 && direction !== 'left') {
-        direction_queue = 'right';
-    } else if (key === 40 && direction !== 'up') {
-        direction_queue = 'down';
-    } else if (key === 13) {
-        //initGame();
-    }
-});
