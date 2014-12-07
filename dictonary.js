@@ -1,6 +1,6 @@
 var request = require("request");
 
-function Words(	) {
+function Words(hl,tr) {
 	this.wordnik = {
 		'hasDictionaryDef':false,
 		'minCorpusCount':0,
@@ -13,18 +13,16 @@ function Words(	) {
 	};
 	this.googleTranslate = {
 		'client':'t',
-		'hl':'en', //откуда
-		'tl':'fr', //куда
+		'hl':hl, //откуда 'en'
+		'tl':tr, //куда 'fr'
 		'ie':'UTF-8',
 		'oe':'UTF-8'
 	};
 }
 
 Words.prototype.getWordAndTr = function(callback){
-
 	var h = this.getTranslateWord.bind(this,callback);
 	this.getWord(h);
-
 }
 
 Words.prototype.getWord = function(callback){
@@ -51,7 +49,12 @@ Words.prototype.getTranslateWord = function(callback,word){
 	});
 }
 
-var word = new Words();
+Words.prototype.langList = function() {
+	return JSON.stringify({'ru':'Russian','fr':'Franch','de':'German'});
+}
+
+var word = new Words('en','fr');
 word.getWordAndTr(function(v){
 	console.log(JSON.stringify(v));
 });
+console.log(word.langList());
