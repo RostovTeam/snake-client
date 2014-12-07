@@ -71,8 +71,10 @@ function Clients() {
         for (var k in this.waitingLangClients) {
 
             var mode = this.waitingLangClients[k].mode;
-            if (this.waitingLangClients[k].length >= mode)
-                clients.push(this.waitingLangClients[k].splice(0, mode));
+            if (this.waitingLangClients[k].length >= mode) {
+                clients = (this.waitingLangClients[k].splice(0, mode));
+                break;
+            }
         }
 
         var has_disconnected = false;
