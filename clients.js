@@ -93,7 +93,7 @@ function getPlayMode(mode) {
 }
 
 function removeFromArray(obj, array) {
-    if(!array.hasOwnProperty(indexOf) && array.hasOwnProperty(splice))
+    if(!array.hasOwnProperty('indexOf') && array.hasOwnProperty('splice'))
         return;
 
     var index = array.indexOf(obj);
