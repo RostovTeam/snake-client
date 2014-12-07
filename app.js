@@ -89,8 +89,11 @@ io.sockets.on('connection', function (socket) {
         if (!this.game) {
             return;
         }
+        var p={};
+        p[socket.info.nickname]=data;
 
-        io.sockets.in(this.game.room).emit('user.game.consume', JSON.stringify(data));
+
+        io.sockets.in(this.game.room).emit('user.game.position', JSON.stringify(data));
         this.game.checkGameState({client: this.info.nickname, coords: data});
     });
 
