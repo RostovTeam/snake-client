@@ -41,6 +41,12 @@ game.prototype.stop = function () {
     }
 }
 
+game.prototype.setSnake = function (key, positions){
+    console.log(positions);
+    if(key!=this.info.nickname)
+        this.snakes[key] = new snake(positions);
+}
+
 game.prototype.render = function () {
     this.canvas.clear('#3d3d3d');
     this.canvas.DrawGrid('#424242');
@@ -49,8 +55,8 @@ game.prototype.render = function () {
     this.direction = this.direction_queue;
 
     var end = {
-        x: this.size,
-        y: this.size
+        x: this.size-1,
+        y: this.size-1
     };
 
     this.snakes[this.info.nickname].move(this.direction, end);

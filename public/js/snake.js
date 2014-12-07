@@ -2,11 +2,12 @@
  * Created by vdaron on 07.12.14.
  */
 var snake = function(cord){
+    console.log(cord);
     this.segments = [];
     for (var i = cord.length-1; i >= 0; i--) {
         this.segments.push({
-            x: cord[i][0],
-            y: cord[i][1]
+            x: cord[i].x,
+            y: cord[i].y
         });
     }
 }
@@ -15,7 +16,7 @@ var snake = function(cord){
 snake.prototype.move = function(direction, end){
 
     this.head = {
-      x:  this.segments[0].x,
+      x: this.segments[0].x,
       y: this.segments[0].y
     };
 

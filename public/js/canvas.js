@@ -39,12 +39,12 @@ canvas.prototype.DrawGrid = function(color){
 canvas.prototype.drawRect = function(x, y, color, alpha) {
     if (alpha == undefined) {
         alpha = this.max_alpha;
-    } else if (alpha < min_alpha) {
+    } else if (alpha < this.min_alpha) {
         alpha = this.min_alpha;
     }
     this.context.fillStyle = color;
     this.context.globalAlpha = alpha;
-    this.context.fillRect(x * this.sizeAll, y * this.sizeAll, size, size);
+    this.context.fillRect(x * this.sizeAll, y * this.sizeAll, this.size, this.size);
 }
 
 canvas.prototype.drawLetter = function(x, y, letter, color){
@@ -64,12 +64,12 @@ canvas.prototype.drawWord = function(ws,color){
 }
 
 canvas.prototype.drawSnake = function (snake, color){
-    var step_alpha = (max_alpha - min_alpha) / (snake.length / 2);
+    var step_alpha = (this.max_alpha - this.min_alpha) / (snake.length / 2);
 
     for (var i = 0; i < snake.length; i++) {
 
         if (snake.length / 2 >= 1 && i >= snake.length / 2) {
-            this.drawRect(snake[i].x, snake[i].y, color, max_alpha + (snake.length / 2 - i) * step_alpha);
+            this.drawRect(snake[i].x, snake[i].y, color, this.max_alpha + (snake.length / 2 - i) * step_alpha);
         } else {
             this.drawRect(snake[i].x, snake[i].y, color, 1);
         }
