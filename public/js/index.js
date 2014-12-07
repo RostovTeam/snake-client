@@ -40,7 +40,7 @@ socket.on('game.init', function (data) {
      }*/
     console.log(data);
 
-    initGame(data.ws,data.s);
+    initGame(data);
 
 });
 
@@ -92,13 +92,14 @@ var speed        = 5,
 var сells_x = Math.round((width - (size + size_grid)) / (size + size_grid)),
     сells_y = Math.round((height - (size + size_grid)) / (size + size_grid));
 
-function initGame(_ws, size_pole) {
+function initGame(data) {
     score = 0;
     direction = 'right';
     direction_queue = 'right';
-    ws = _ws;
-    width  = ctx.canvas.width = size_pole*(size+size_grid);
-    height = ctx.canvas.height = size_pole*(size+size_grid);
+    ws = data.ws;
+    width  = ctx.canvas.width = data.s*(size+size_grid);
+    height = ctx.canvas.height = data.s*(size+size_grid);
+
 
     createSnake();
     createApple();
