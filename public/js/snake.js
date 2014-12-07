@@ -2,8 +2,8 @@
  * Created by vdaron on 07.12.14.
  */
 var snake = function(cord){
-    console.log(cord);
     this.segments = [];
+    this.def_position = cord;
     for (var i = cord.length-1; i >= 0; i--) {
         this.segments.push({
             x: cord[i].x,
@@ -47,9 +47,12 @@ snake.prototype.move = function(direction, end){
 }
 
 snake.prototype.reset = function(){
-    for(var i = this.segments.length-1; i>=0; i--){
-        this.segments[i].x = 0;
-        this.segments[i].y = i;
+    this.segments = [];
+    for (var i = this.def_position.length-1; i >= 0; i--) {
+        this.segments.push({
+            x: this.def_position[i].x,
+            y: this.def_position[i].y
+        });
     }
 }
 

@@ -52,11 +52,19 @@ socket.on('game.init', function (data) {
 
 
 socket.on('user.game.position', function(data){
-    //console.log(data);
     var key = Object.keys(data)[0];
     _game.setSnake(key, data[key]);
 })
 
+socket.on('game.consume', function(data){
+    var key = Object.keys(data)[0];
+    _game.delLetter(data[key]);
+})
+socket.on('game.collision',function(data){
+    console.log("collision")
+    _game.snakes[data[0][0]].reset();
+    _game.snakes[data[0][1]].reset();
+})
 $(function(){
     $('#myModal1').modal({
         backdrop: 'static',

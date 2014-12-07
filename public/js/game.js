@@ -13,7 +13,7 @@ var game = function (_canvas,snakes,word_l,size,info ) {
         score;
 */
 
-    this.speed = 10;
+    this.speed = 4;
     this.snakes = {};
     this.direction = 'down';
     this.direction_queue = 'down';
@@ -45,6 +45,10 @@ game.prototype.setSnake = function (key, positions){
     console.log(positions);
     if(key!=this.info.nickname)
         this.snakes[key] = new snake(positions);
+}
+
+game.prototype.delLetter = function (key){
+   delete  this.ws[key];
 }
 
 game.prototype.render = function () {
