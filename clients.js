@@ -45,7 +45,7 @@ function Clients() {
   this.hasWaiting = function() {
 
     console.log(JSON.stringify(this.waitingLangClients));
-    
+
     for (var k in this.waitingLangClients)
       if (this.waitingLangClients[k].length >= 2)
         return true;
