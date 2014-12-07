@@ -94,7 +94,7 @@ snake.prototype.reset = function(){
     var l = this.segments.length
     this.segments = [];
 
-    for(var i = 0; i < l-1; i++){
+    for(var i = 0; i < l; i++){
         if(i==0)
             this.segments.push({
                 x: this.def_position.x,
