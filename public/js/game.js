@@ -68,12 +68,13 @@ game.prototype.stop = function () {
 }
 
 game.prototype.addLetter = function (letter){
-    this.ws.push(letter)
+    key = Object.keys(letter)[0];
+    this.ws[key] = letter[key];
 }
 
 game.prototype.setSnake = function (key, positions){
     if(key!=this.info.nickname)
-        this.snakes[key] = new snake(positions);
+        this.snakes[key].sync(positions);
 }
 
 game.prototype.delLetters = function (letters){
