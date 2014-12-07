@@ -121,6 +121,7 @@ Game.prototype.checkGameState = function (position) {
         var nex_l = word[consumed.length];
         if (nex_l != l) {
             //choosed wrong letter, reset
+            this.io.in(this.room).emit('game.reset', {client:position.client});
         }
         else {
             this.data.pl[position.client] += l;

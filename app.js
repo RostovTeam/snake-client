@@ -76,9 +76,13 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('user.game.ready', function () {
+
+        this.is_ready=true;
+
+        console.log('user.game.ready' + "  " + this.info.nickname);
         //send (in room) message to start game
         if (this.game.isTeamReady()) {
-            console.log('user.game.ready' + "  " + this.game.room);
+            console.log('game.start' + "  " + this.game.room);
             io.sockets.in(this.game.room).emit('game.start');
         }
     });
