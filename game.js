@@ -217,7 +217,7 @@ function getSnakeInitCoodinates(pos, map_size, init_snake_size) {
 
     for (var i = _s; i <= _e; i++) {
         var _c = [];
-        _c[c] = start[c]
+        _c[c] = start[c];
         _c[nc] = i;
         coords.push({x:_c[0],y:_c[1]});
     }
