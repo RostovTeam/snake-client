@@ -219,10 +219,10 @@ function getSnakeInitCoodinates(pos, map_size, init_snake_size) {
         var _c = [];
         _c[c] = start[c]
         _c[nc] = i;
-        coords.push(_c);
+        coords.push({x:_c[0],y:_c[1]});
     }
 
-    return {x: coords[0], y: coords[1]};
+    return coords;
 }
 
 module.exports = Game;
