@@ -43,6 +43,7 @@ function Clients() {
   }
 
   this.hasWaiting = function() {
+
     
     for (var k in this.waitingLangClients)
       if (this.waitingLangClients[k].length >= 2)

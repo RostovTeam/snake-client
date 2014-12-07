@@ -38,7 +38,9 @@ socket.on('game.init', function (data) {
      //size of map (map is square)
      s: 300
      }*/
+    console.log(data);
 
+    initGame(data.ws);
 
 });
 
@@ -71,28 +73,30 @@ var ctx = $('#canvas')[0].getContext('2d'),
     height = $('#canvas').height();
 
 
-var speed = 10,
+var speed = 5,
     size_grid = 1,
     size = 20,
     direction,
     direction_queue,
     apple,
     score,
-    snake ,
+    snake,
     snake_length = 1,
     game = null,
     min_alpha = 0.2,
-    max_alpha = 1;
+    max_alpha = 1,
     player_1 = "#42809a",
-    player_2 = "#f85758";
+    player_2 = "#f85758",
+    ws;
 
 var сells_x = Math.round((width - (size + size_grid)) / (size + size_grid)),
     сells_y = Math.round((height - (size + size_grid)) / (size + size_grid));
 
-function initGame() {
+function initGame(_ws) {
     score = 0;
     direction = 'right';
     direction_queue = 'right';
+    ws = _ws;
     createSnake();
     createApple();
     clearGameLoop();
@@ -244,7 +248,19 @@ function render() {
         }
     }
     //Draw apple
-    drawLetter(apple.x, apple.y, "t", '#9CF381');
+    //drawLetter(apple.x, apple.y, "t", '#9CF381');
+    drawWord(ws, '#9CF381');
+}
+
+function drawWord(ws,color){
+    for(var key in ws){
+        var x = key.split(" ")[0],
+            y = key.split(" ")[1],
+            letter = ws[key];
+        //console.log("x="+x+" y="+y+" letter="+letter);
+        //drawLetter(x, y, letter, color);
+        drawRect(x, y, color);
+    }
 }
 
 //Draw rectangle
@@ -287,6 +303,6 @@ $(document).keydown(function (e) {
     } else if (key === 40 && direction !== 'up') {
         direction_queue = 'down';
     } else if (key === 13) {
-        initGame();
+        //initGame();
     }
 });
