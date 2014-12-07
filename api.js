@@ -21,10 +21,8 @@ function Words() {
 }
 
 Words.prototype.getWordAndTr = function (callback) {
-
     var h = this.getTranslateWord.bind(this, callback);
     this.getWord(h);
-
 }
 
 Words.prototype.getWord = function (callback) {
