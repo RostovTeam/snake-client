@@ -77,6 +77,7 @@ function Clients() {
       array.splice(index, 1);
     }
   }
+
 }
 
 function getLanguangeHash(info) {

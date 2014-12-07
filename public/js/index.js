@@ -38,7 +38,10 @@ socket.on('game.init', function (data) {
      //size of map (map is square)
      s: 300
      }*/
+
+
 });
+
 function getFormData($form) {
     var unindexed_array = $form.serializeArray();
     var indexed_array = {};
@@ -75,9 +78,13 @@ var speed = 10,
     direction_queue,
     apple,
     score,
-    snake,
-    snakelength = 1,
-    game = null;
+    snake ,
+    snake_length = 1,
+    game = null,
+    min_alpha = 0.2,
+    max_alpha = 1;
+    player_1 = "#42809a",
+    player_2 = "#f85758";
 
 var сells_x = Math.round((width - (size + size_grid)) / (size + size_grid)),
     сells_y = Math.round((height - (size + size_grid)) / (size + size_grid));
@@ -100,7 +107,7 @@ function clearGameLoop() {
 
 function createSnake() {
     snake = [];
-    for (var i = snakelength; i > 0; i--) {
+    for (var i = snake_length; i > 0; i--) {
         snake.push({
             x: i - 2,
             y: 0
@@ -170,8 +177,8 @@ function render() {
     ctx.fillStyle = '#424242';
     for (var xm = 0; xm < width / (size + size_grid); xm++) {
         for (var ym = 0; ym < height / (size + size_grid); ym++) {
-            ctx.fillRect(xm * ((size + size_grid)), ym * ((size + size_grid)), 20, 1);
-            ctx.fillRect(xm * ((size + size_grid)), ym * ((size + size_grid)), 1, 20);
+            ctx.fillRect(xm * ((size + size_grid))-size_grid, ym * ((size + size_grid))-size_grid, size+size_grid, size_grid);
+            ctx.fillRect(xm * ((size + size_grid))-size_grid, ym * ((size + size_grid))-size_grid, size_grid, size+size_grid);
         }
     }
 
@@ -226,33 +233,36 @@ function render() {
     }
 
     //Draw snake
-    // 3 5 7 9
-    // 0.9 0.8 0.7 0.6
-    var min = 0.3;
-    var max = 1;
-    var step = (max - min) / (snake.length / 2);
+    var step = (max_alpha - min_alpha) / (snake.length / 2);
+
     for (var i = 0; i < snake.length; i++) {
         if (snake.length / 2 >= 1 && i >= snake.length / 2) {
 
-            drawRect(snake[i].x, snake[i].y, '#42809a', max + (snake.length / 2 - i) * step);
+            drawRect(snake[i].x, snake[i].y, player_1, max_alpha + (snake.length / 2 - i) * step);
         } else {
-            drawRect(snake[i].x, snake[i].y, '#42809a', 1);
+            drawRect(snake[i].x, snake[i].y, player_1, 1);
         }
     }
     //Draw apple
-    drawRect(apple.x, apple.y, '#9CF381');
+    drawLetter(apple.x, apple.y, "t", '#9CF381');
 }
 
 //Draw rectangle
 function drawRect(x, y, color, alpha) {
     if (alpha == undefined) {
-        alpha = 1
-    } else if (alpha < 0.3) {
-        alpha = 0.3
+        alpha = max_alpha;
+    } else if (alpha < min_alpha) {
+        alpha = min_alpha;
     }
     ctx.fillStyle = color;
     ctx.globalAlpha = alpha;
     ctx.fillRect(x * (size + size_grid), y * (size + size_grid), size, size);
+}
+
+function drawLetter(x, y, letter, color){
+    ctx.fillStyle = color;
+    ctx.font = '13pt fixedsys';
+    ctx.fillText(letter, x * (size + size_grid)+10, y * (size + size_grid)+15);
 }
 
 //Collision
