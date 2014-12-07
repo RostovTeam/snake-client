@@ -95,8 +95,10 @@ Game.prototype.checkGameState = function (position) {
     }
 
     //send collisions
-    this.io.in(this.room).emit('game.collision', collisions);
-
+    if(collisions.length) {
+        console.log('game.collision' + "  " + JSON.stringify(collisions));
+        this.io.in(this.room).emit('game.collision', collisions);
+    }
 
     //check collisions with letters
     var coods_hash = [];
@@ -113,7 +115,6 @@ Game.prototype.checkGameState = function (position) {
             continue;
         }
         var l = this.data.ws[key];
-        consumes[position.client].push({key: l});
 
         // check if letter is in correct order
         var consumed = this.data.pl[position.client];
@@ -121,14 +122,19 @@ Game.prototype.checkGameState = function (position) {
         var nex_l = word[consumed.length];
         if (nex_l != l) {
             //choosed wrong letter, reset
+            console.log('game.reset' + "  " + JSON.stringify({client: position.client}));
             this.io.in(this.room).emit('game.reset', {client: position.client});
         }
         else {
+            consumes[position.client].push({key: l});
             this.data.pl[position.client] += l;
         }
     }
     //send consumes
-    this.io.in(this.room).emit('game.consume', consumes);
+    if(Object.keys(consumes).length) {
+        console.log('game.reset' + "  " + JSON.stringify(consumes));
+        this.io.in(this.room).emit('game.consume', consumes);
+    }
 
     //check end game
     for (var c in this.data.pl) {
