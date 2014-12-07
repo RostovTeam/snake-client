@@ -132,7 +132,7 @@ Game.prototype.checkGameState = function (position) {
     }
     //send consumes
     if(Object.keys(consumes).length) {
-        console.log('game.reset' + "  " + JSON.stringify(consumes));
+        console.log('game.consume' + "  " + JSON.stringify(consumes));
         this.io.in(this.room).emit('game.consume', consumes);
     }
 
