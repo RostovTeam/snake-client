@@ -88,8 +88,10 @@ Game.prototype.checkGameState = function (position) {
 
         for (var i = 0; i < this.data.p[key].length; i++) {
             for (var j = 0; j < position.coords.length; j++) {
-                if (this.data.p[key][i].x == position.coords[j].x && this.data.p[key][i].y == position.coords[j].y)
+                if (this.data.p[key][i].x == position.coords[j].x && this.data.p[key][i].y == position.coords[j].y) {
+                    
                     collisions.push([position.client, key]);
+                }
             }
         }
     }
@@ -125,8 +127,10 @@ Game.prototype.checkGameState = function (position) {
             this.io.in(this.room).emit('game.reset', {client: position.client});
         }
         else {
+
             var _c={};
             _c[key]=l;
+            delete  this.data.ws[key];
             consumes.push(_c);
             this.data.pl[position.client] += l;
         }
