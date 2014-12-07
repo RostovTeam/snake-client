@@ -151,17 +151,19 @@ Game.prototype.checkGameState = function (position) {
         }
         else {
 
-            var _c = {};
-            _c[key] = l;
-            delete  this.data.ws[key];
-            consumes.push(_c);
+            //var _c = {};
+            //_c[key] = l;
+            //delete  this.data.ws[key];
+            consumes.push(key);
             this.data.pl[position.client] += l;
         }
     }
     //send consumes
     if (consumes.length) {
         var r = {};
-        r[position.client] = consumes;
+        r['client'] = position.client;
+        r['letters'] =consumes;
+        r['word'] =this.data.pl[position.client];
         console.log('game.consume' + "  " + JSON.stringify(r));
         this.io.in(this.room).emit('game.consume', r);
     }
