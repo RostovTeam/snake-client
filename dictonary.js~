@@ -54,13 +54,22 @@ Words.prototype.getTranslateWord = function (callback, word) {
     });
 }
 
+<<<<<<< HEAD:dictonary.js
 Words.prototype.langList = function() {
 	return JSON.stringify({'ru':'Russian','fr':'Franch','de':'German'});
 }
 
-//var word = new Words('en','fr');
+var word = new Words('en','fr');
+word.getWordAndTr(function(v){
+	console.log(JSON.stringify(v));
+});
+console.log(word.langList());
+=======
+
+module.exports = Words;
+//
+//var word = new Words();
 //word.getWordAndTr(function(v){
 //	console.log(JSON.stringify(v));
 //});
-//console.log(word.langList());
-module.exports = Words;
+>>>>>>> e885fa5f7122ae0617900d9c2a94f66a2a1d2195:api.js
