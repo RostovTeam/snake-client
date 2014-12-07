@@ -64,11 +64,11 @@ socket.on('game.consume', function(data){
 });
 
 socket.on('game.collision', function(data){
-    for(var colis in data){
-        for(var i = 0; i < colis.client.length; i++){
-            _game.snakes[colis.client[i]].reset();
+    for(var i = 0; i < data.length; i++){
+        for(var j = 0; j < data[i].clients.length; j++){
+            _game.snakes[data[i].clients[j]].reset();
         }
-        _game.addLetter(colis.letters);
+        _game.addLetter(data[i].letters);
     }
 });
 
