@@ -23,7 +23,8 @@ socket.on('game.init', function (data) {
         data.p,
         data.ws,
         data.s,
-        info
+        info,
+        data.ss
     )
     _game.render();
 

@@ -1,7 +1,7 @@
 /**
  * Created by vdaron on 07.12.14.
  */
-var game = function (_canvas,snakes,word_l,size,info ) {
+var game = function (_canvas, snakes, word_l, size,info, snake_ss) {
 /*
         min_alpha = 0.2,
         max_alpha = 1,
@@ -24,7 +24,33 @@ var game = function (_canvas,snakes,word_l,size,info ) {
     this.ws = word_l;
 
     for(var key in snakes){
-        this.snakes[key] = new snake(snakes[key]);
+        var position = [];
+        for(var i = 0; i < snake_ss; i++){
+            if(i==0)
+                position.push({
+                    x: snakes[key].x,
+                    y: snakes[key].y
+                });
+
+            else{
+                if(snakes[key].y == 0){
+                    position.push({
+                        x: snakes[key].x,
+                        y: snakes[key].y+i
+                    });
+                }
+                if(snakes[key].y == size-1){
+
+                    position.push({
+                        x: snakes[key].x,
+                        y: snakes[key].y-i
+                    });
+                }
+
+            }
+        }
+
+        this.snakes[key] = new snake(position);
     }
 
 
