@@ -1,8 +1,6 @@
 var express = require('express'),
   path = require('path');
 
-
-
 var Game = require('./game');
 var Clients = require('./clients');
 
@@ -52,7 +50,7 @@ io.sockets.on('connection', function(socket) {
 
       game.on('ended', function() {
         this.clients.forEach(function(v) {
-          clients.setWaiting(this);
+          clients.setWaiting(v);
         });
       });
     }

@@ -63,7 +63,7 @@ function Clients() {
     var info = client.info;
 
     if (info) {
-      var langHash = getLanguangeHash(client.info);
+      var langHash = getLanguangeHash(info);
 
       removeFromArray(client, this.waitingLangClients[langHash]);
     }
