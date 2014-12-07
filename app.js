@@ -102,7 +102,7 @@ io.sockets.on('connection', function (socket) {
         // ????
         if(!this.game)
             return;
-        
+
         this.game.checkGameState({client: this.info.nickname, coords: data});
     });
 

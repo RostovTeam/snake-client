@@ -99,9 +99,17 @@ Game.prototype.checkGameState = function (position) {
                     this.data.pl[position.client] = w1.substring(0, w1.length - 1);
                     this.data.pl[key] = w2.substring(0, w2.length - 1);
 
+
                     var _ls = {};
-                    _ls[getCoordHash(getRandomCoordinate(this.data.s, Game.INIT_SNAKE_SIZE))] = l1;
-                    _ls[getCoordHash(getRandomCoordinate(this.data.s, Game.INIT_SNAKE_SIZE))] = l2;
+
+                    var _c1 = getCoordHash(getRandomCoordinate(this.data.s, Game.INIT_SNAKE_SIZE));
+                    var _c2 = getCoordHash(getRandomCoordinate(this.data.s, Game.INIT_SNAKE_SIZE));
+
+                    this.data.ws[_c1] = l1;
+                    this.data.ws[_c2] = l2;
+
+                    _ls[_c1] = l1;
+                    _ls[_c2] = l2;
 
                     collisions.push({clients: [position.client, key], letters: _ls});
                 }
