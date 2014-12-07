@@ -1,10 +1,13 @@
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
+var Words= require('./api');
 
-var shared = require('./public/js/shared');
+//var shared = require('./public/js/shared');
 
 var Game = function (io, clients) {
     this.io = io;
+
+    this.dict=new Words();
 
     this.clients = clients;
 
@@ -39,31 +42,37 @@ function init() {
         });
     }
 
-    var data = {};
-    //get word to learn
-    data.w = "word";
-    data.wt = "le mot";
+    var self=this;
 
-    //size of map and coordinates of letters
-    var size = this.clients.length * 15;
-    data.s = size;
+    this.dict.getWordAndTr(function(res){
 
-    //get letter coordinates
-    data.ws = getLetterCoordinates(data.w, size, this.clients.length);
+        var data = {};
+        //get word to learn
+        data.w = res.word;
+        data.wt = res.tr;
 
-    //init player's snakes coorinates
-    data.p = getPlayersInitCoordinates(this.clients, size);
+        //size of map and coordinates of letters
+        var size = self.clients.length * 15;
+        data.s = size;
 
-    this.data = game.data;
+        //get letter coordinates
+        data.ws = getLetterCoordinates(data.w, size, self.clients.length);
 
-    console.log('game.init' + "  " + JSON.stringify(data));
-    this.io.in(this.room).emit('game.init', data);
+        //init player's snakes coorinates
+        data.p = getPlayersInitCoordinates(self.clients, size);
 
-    //init client's letters
-    this.data.pl = {};
-    for (var i = 0, l = this.clients.length; i < l; i++) {
-        this.data.pl[this.clients[i].info.nickname] = "";
-    }
+        self.data = data;
+
+        console.log('game.init' + "  " + JSON.stringify(data));
+        self.io.in(self.room).emit('game.init', data);
+
+        //init client's letters
+        self.data.pl = {};
+        for (var i = 0, l = self.clients.length; i < l; i++) {
+            self.data.pl[self.clients[i].info.nickname] = "";
+        }
+    });
+
 }
 
 Game.prototype.checkGameState = function (position) {
