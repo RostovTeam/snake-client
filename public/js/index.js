@@ -13,9 +13,7 @@ var socket = io.connect(window.location.protocol + '//' + window.location.host, 
 var ctx = $('#canvas')[0].getContext('2d'),
     _game;
 
-
-var player_1     = "#42809a",
-    player_2     = "#f85758",
+var p_collors = ["#42809a","#f85758"],
     info;
 
 
@@ -54,17 +52,33 @@ socket.on('game.init', function (data) {
 socket.on('user.game.position', function(data){
     var key = Object.keys(data)[0];
     _game.setSnake(key, data[key]);
-})
+});
 
 socket.on('game.consume', function(data){
-    console.log(data);
-    var key = Object.keys(data)[0];
-    _game.delLetter(data[key][0]);
+    var snake_name = Object.keys(data)[0];
+    _game.delLetters(data[snake_name]);
+    if(info.nickname == snake_name){
+        _game.snakes[snake_name].consume = true;
+    }
+});
+
+socket.on('game.collision', function(data){
+    for(var colis in data){
+        for(var i = 0; i < colis.client.length; i++){
+            _game.snakes[colis.client[i]].reset();
+        }
+        _game.addLetter(colis.letters);
+    }
+});
+
+socket.on('game.reset', function(data){
+    _game.snakes[data.client].reset();
 })
-socket.on('game.collision',function(data){
-    _game.snakes[data[0][0]].reset();
-    _game.snakes[data[0][1]].reset();
+
+socket.on('game.over', function(data){
+    alert(data.reason);
 })
+
 $(function(){
     $('#myModal1').modal({
         backdrop: 'static',

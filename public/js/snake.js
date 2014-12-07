@@ -2,6 +2,7 @@
  * Created by vdaron on 07.12.14.
  */
 var snake = function(cord){
+    this.consume = false;
     this.segments = [];
     this.def_position = cord;
     for (var i = cord.length-1; i >= 0; i--) {
@@ -41,7 +42,13 @@ snake.prototype.move = function(direction, end){
         this.head.y = end.y;
     }
 
-    this.segments.pop();
+    if(!this.consume){
+        this.segments.pop();
+    }
+    else
+        this.consume = false
+
+
     this.segments.unshift(this.head);
     socket.emit('user.game.position', this.segments);
 }
