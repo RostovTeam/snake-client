@@ -88,7 +88,7 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('user.game.position', function (data) {
-        console.log('user.game.position' + "  " + JSON.stringify(data));
+        //console.log('user.game.position' + "  " + JSON.stringify(data));
 
         if (!this.game) {
             return;
@@ -98,6 +98,11 @@ io.sockets.on('connection', function (socket) {
 
         //console.log('user.game.position' + "  " + JSON.stringify(p));
         io.sockets.in(this.game.room).emit('user.game.position', p);
+
+        // ????
+        if(!this.game)
+            return;
+        
         this.game.checkGameState({client: this.info.nickname, coords: data});
     });
 
