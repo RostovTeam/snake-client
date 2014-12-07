@@ -100,8 +100,8 @@ Game.prototype.checkGameState = function (position) {
                     this.data.pl[key] = w2.substring(0, w2.length - 1);
 
                     var _ls = {};
-                    _ls[getCoordHash(getRandomCoordinate(size, Game.INIT_SNAKE_SIZE))] = l1;
-                    _ls[getCoordHash(getRandomCoordinate(size, Game.INIT_SNAKE_SIZE))] = l2;
+                    _ls[getCoordHash(getRandomCoordinate(this.data.s, Game.INIT_SNAKE_SIZE))] = l1;
+                    _ls[getCoordHash(getRandomCoordinate(this.data.s, Game.INIT_SNAKE_SIZE))] = l2;
 
                     collisions.push({clients: [position.client, key], letters: _ls});
                 }
