@@ -128,7 +128,7 @@ Game.prototype.checkGameState = function (position) {
         else {
             var _c={};
             _c[key]=l;
-            consumes[position.client].push(_cgit );
+            consumes[position.client].push(_c);
             this.data.pl[position.client] += l;
         }
     }
