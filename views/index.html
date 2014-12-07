@@ -10,50 +10,65 @@
 </head>
 <body>
 <div class="container">
+    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModal1Label"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModal1Label">Setting</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="page1">
+                        <form>
+                            <div class="form-group">
+                                <label for="nickname">Nickname</label>
+                                <input type="text" class="form-control" id="nickname" name="nickname"
+                                       placeholder="nickname">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="native_lang">Native language</label>
+                                <select id="native_lang" class="form-control" name="native_lang">
+                                    <option value="english">English</option>
+                                    <option value="chinese">Chinese</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="learning_lang">Learning language</label>
+                                <select id="learning_lang" class="form-control" name="learning_lang">
+                                    <option value="chinese">Chinese</option>
+                                    <option value="english">English</option>
+                                </select>
+                            </div>
+
+                            <label class="radio-inline">
+                                <input type="radio" name="mode" id="inlineRadio1" value="1" checked="checked"> Single
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="mode" id="inlineRadio2" value="2"> Multi
+                            </label>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="save" type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-6 col-xd-4">
             <canvas id="canvas" width="500" height="500">Sorry your browser does not support HTML5</canvas>
-        </div>
-        <div class="col-md-4 col-xd-6">
-            <form role="form">
-                <div class="form-group">
-                    <label for="nickname">Nickname</label>
-                    <input type="text" class="form-control" id="nickname" name="nickname" placeholder="nickname">
-                </div>
-
-                <div class="form-group">
-                    <label for="native_lang">Native language</label>
-                    <select id="native_lang" class="form-control" name="native_lang">
-                        <option value="english">English</option>
-                        <option value="chinese">Chinese</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="learning_lang">Learning language</label>
-                    <select id="learning_lang" class="form-control" name="learning_lang">
-                        <option value="chinese">Chinese</option>
-                        <option value="english">English</option>
-                    </select>
-                </div>
-
-                <label class="radio-inline">
-                    <input type="radio" name="mode" id="inlineRadio1" value="1" checked="checked"> Single
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="mode" id="inlineRadio2" value="2"> Multi
-                </label>
-
-                <hr>
-                <div class="form-group">
-                    <button type="button" id="enter" class="btn btn-default">Submit</button>
-                </div>
-            </form>
         </div>
     </div>
 </div>
 </body>
 <script type='text/javascript' src='//yastatic.net/jquery/2.1.1/jquery.min.js'></script>
 <script type='text/javascript' src='/socket.io/socket.io.js'></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script type='text/javascript' src="/js/canvas.js"></script>
+<script type='text/javascript' src="/js/snake.js"></script>
+<script type='text/javascript' src="/js/game.js"></script>
 <script type='text/javascript' src='/js/index.js'></script>
 </html>
