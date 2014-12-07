@@ -59,7 +59,7 @@ socket.on('user.game.position', function(data){
 socket.on('game.consume', function(data){
     console.log(data);
     var key = Object.keys(data)[0];
-    _game.delLetter(data[key]);
+    _game.delLetter(data[key][0]);
 })
 socket.on('game.collision',function(data){
     _game.snakes[data[0][0]].reset();
