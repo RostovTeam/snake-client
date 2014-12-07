@@ -81,6 +81,7 @@ Game.prototype.checkGameState = function (position) {
     this.data.p[position.client] = position.coords;
     var collisions = [];
 
+    //need rewrite
     for (var key in this.data.p) {
         if (key == position.client)
             continue;
@@ -92,6 +93,7 @@ Game.prototype.checkGameState = function (position) {
             }
         }
     }
+
     //send collisions
     this.io.in(this.room).emit('game.collision', collisions);
 
@@ -102,7 +104,6 @@ Game.prototype.checkGameState = function (position) {
     for (var j = 0; j < position.coords.length; j++) {
         coods_hash.push(position.coords[i][0] + ' ' + position.coords[i][1]);
     }
-
 
     var consumes = {};
     consumes[position.client] = [];
@@ -126,7 +127,7 @@ Game.prototype.checkGameState = function (position) {
         }
     }
     //send consumes
-    this.io.in(this.room).emit('game.consumes', consumes);
+    this.io.in(this.room).emit('game.consume', consumes);
 
     //check end game
     for (var c in this.data.pl) {

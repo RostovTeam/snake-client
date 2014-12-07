@@ -53,7 +53,7 @@ io.sockets.on('connection', function (socket) {
             if (!waiting_game)
                 return;
 
-            var game = new Game(io,waiting_game);
+            var game = new Game(io, waiting_game);
 
             game.on('ended', function () {
                 var self = this;
@@ -85,13 +85,19 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('user.game.position', function (data) {
         console.log('user.game.position' + "  " + JSON.stringify(data));
+
+        if (!this.game) {
+            return;
+        }
+
         io.sockets.in(this.game.room).emit('user.game.consume', JSON.stringify(data));
+        this.game.checkGameState({client: this.info.nickname, coords: data});
     });
 
-    socket.on('user.game.consume', function (data) {
-        console.log('user.game.consume' + "  " + JSON.stringify(data));
-        io.sockets.in(this.game.room).emit('user.game.consume', data);
-    });
+    //socket.on('user.game.consume', function (data) {
+    //    console.log('user.game.consume' + "  " + JSON.stringify(data));
+    //    io.sockets.in(this.game.room).emit('user.game.consume', data);
+    //});
 });
 
 server.listen(app.get('port'), function () {
