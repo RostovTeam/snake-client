@@ -42,12 +42,13 @@ game.prototype.stop = function () {
 }
 
 game.prototype.setSnake = function (key, positions){
-    console.log(positions);
     if(key!=this.info.nickname)
         this.snakes[key] = new snake(positions);
 }
 
-game.prototype.delLetter = function (key){
+game.prototype.delLetter = function (obj){
+   var key = Object.keys(obj)[0];
+    console.log(key)
    delete  this.ws[key];
 }
 
@@ -63,13 +64,14 @@ game.prototype.render = function () {
         y: this.size-1
     };
 
+    this.canvas.drawWord(this.ws, '#9CF381');
+    
     this.snakes[this.info.nickname].move(this.direction, end);
 
     for (var key in this.snakes) {
         this.canvas.drawSnake(this.snakes[key].segments, player_1);
     }
 
-    this.canvas.drawWord(this.ws, '#9CF381');
 }
 
 game.prototype.onKeydown = function (e) {
