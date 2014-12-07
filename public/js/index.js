@@ -40,7 +40,7 @@ socket.on('game.init', function (data) {
      }*/
     console.log(data);
 
-    initGame(data.ws);
+    initGame(data.ws,data.s);
 
 });
 
@@ -69,34 +69,37 @@ $('#enter').on('click', function () {
  */
 
 var ctx = $('#canvas')[0].getContext('2d'),
-    width = $('#canvas').width(),
-    height = $('#canvas').height();
+    width,
+    height;
 
 
-var speed = 5,
-    size_grid = 1,
-    size = 20,
+var speed        = 5,
+    size_grid    = 1,
+    size         = 20,
+    snake_length = 1,
+    game         = null,
+    min_alpha    = 0.2,
+    max_alpha    = 1,
+    player_1     = "#42809a",
+    player_2     = "#f85758",
+    ws,
     direction,
     direction_queue,
     apple,
     score,
-    snake,
-    snake_length = 1,
-    game = null,
-    min_alpha = 0.2,
-    max_alpha = 1,
-    player_1 = "#42809a",
-    player_2 = "#f85758",
-    ws;
+    snake;
 
 var сells_x = Math.round((width - (size + size_grid)) / (size + size_grid)),
     сells_y = Math.round((height - (size + size_grid)) / (size + size_grid));
 
-function initGame(_ws) {
+function initGame(_ws, size_pole) {
     score = 0;
     direction = 'right';
     direction_queue = 'right';
     ws = _ws;
+    width  = ctx.canvas.width = size_pole*(size+size_grid);
+    height = ctx.canvas.height = size_pole*(size+size_grid);
+
     createSnake();
     createApple();
     clearGameLoop();
@@ -247,8 +250,7 @@ function render() {
             drawRect(snake[i].x, snake[i].y, player_1, 1);
         }
     }
-    //Draw apple
-    //drawLetter(apple.x, apple.y, "t", '#9CF381');
+    //Draw letters
     drawWord(ws, '#9CF381');
 }
 
@@ -258,8 +260,7 @@ function drawWord(ws,color){
             y = key.split(" ")[1],
             letter = ws[key];
         //console.log("x="+x+" y="+y+" letter="+letter);
-        //drawLetter(x, y, letter, color);
-        drawRect(x, y, color);
+        drawLetter(x, y, letter, color);
     }
 }
 
@@ -278,7 +279,7 @@ function drawRect(x, y, color, alpha) {
 function drawLetter(x, y, letter, color){
     ctx.fillStyle = color;
     ctx.font = '13pt fixedsys';
-    ctx.fillText(letter, x * (size + size_grid)+10, y * (size + size_grid)+15);
+    ctx.fillText(letter, x * (size + size_grid)+5, y * (size + size_grid)+15);
 }
 
 //Collision
