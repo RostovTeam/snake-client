@@ -113,7 +113,13 @@ Game.prototype.checkGameState = function (position) {
                         _ls[_c2] = l2;
                     }
 
-                    collisions.push({clients: [position.client, key], letters: _ls});
+                    collisions.push({
+                        clients: [
+                            {client: position.client, word: this.data.pl[position.client]},
+                            {client: key, word: this.data.pl[key]}
+                        ],
+                        letters: _ls
+                    });
                 }
             }
         }
@@ -123,6 +129,7 @@ Game.prototype.checkGameState = function (position) {
     if (collisions.length) {
         console.log('game.collision' + "  " + JSON.stringify(collisions));
         this.io.in(this.room).emit('game.collision', collisions);
+        return false;
     }
 
     //check collisions with letters
@@ -148,6 +155,7 @@ Game.prototype.checkGameState = function (position) {
             //choosed wrong letter, reset
             console.log('game.reset' + "  " + JSON.stringify({client: position.client}));
             this.io.in(this.room).emit('game.reset', {client: position.client});
+            return false;
         }
         else {
 
@@ -162,8 +170,8 @@ Game.prototype.checkGameState = function (position) {
     if (consumes.length) {
         var r = {};
         r['client'] = position.client;
-        r['letters'] =consumes;
-        r['word'] =this.data.pl[position.client];
+        r['letters'] = consumes;
+        r['word'] = this.data.pl[position.client];
         console.log('game.consume' + "  " + JSON.stringify(r));
         this.io.in(this.room).emit('game.consume', r);
     }
@@ -175,6 +183,7 @@ Game.prototype.checkGameState = function (position) {
             this.end(c + " has von");
         }
     }
+    return true;
 }
 
 Game.prototype.end = function (reason) {

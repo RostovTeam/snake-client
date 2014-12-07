@@ -77,7 +77,7 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('user.game.ready', function () {
 
-        this.is_ready=true;
+        this.is_ready = true;
 
         console.log('user.game.ready' + "  " + this.info.nickname);
         //send (in room) message to start game
@@ -93,17 +93,13 @@ io.sockets.on('connection', function (socket) {
         if (!this.game) {
             return;
         }
-        var p={};
-        p[socket.info.nickname]=data;
+        var p = {};
+        p[socket.info.nickname] = data;
 
         //console.log('user.game.position' + "  " + JSON.stringify(p));
-        io.sockets.in(this.game.room).emit('user.game.position', p);
 
-        // ????
-        if(!this.game)
-            return;
-
-        this.game.checkGameState({client: this.info.nickname, coords: data});
+        if (this.game.checkGameState({client: this.info.nickname, coords: data}))
+            io.sockets.in(this.game.room).emit('user.game.position', p);
     });
 
     //socket.on('user.game.consume', function (data) {
