@@ -23,7 +23,7 @@ var Game = function (io, clients) {
     }
 };
 
-Game.INIT_SNAKE_SIZE = 1;
+Game.INIT_SNAKE_SIZE = 2;
 util.inherits(Game, EventEmitter);
 
 function init() {
@@ -54,6 +54,7 @@ function init() {
         //size of map and coordinates of letters
         var size = self.clients.length * 15;
         data.s = size;
+        data.ss = Game.INIT_SNAKE_SIZE;
 
         //get letter coordinates
         data.ws = getLetterCoordinates(data.w, size, self.clients.length);
@@ -95,14 +96,14 @@ Game.prototype.checkGameState = function (position) {
                     var w2 = this.data.pl[key];
                     var l1 = w1.substring(w1.length - 1, w1.length);
                     var l2 = w2.substring(w2.length - 1, w2.length);
-                    this.data.pl[position.client]=w1.substring(0,w1.length-1);
-                    this.data.pl[key]=w2.substring(0,w2.length-1);
+                    this.data.pl[position.client] = w1.substring(0, w1.length - 1);
+                    this.data.pl[key] = w2.substring(0, w2.length - 1);
 
-                    var _ls={};
-                    _ls[getCoordHash(getRandomCoordinate(size, Game.INIT_SNAKE_SIZE))]=l1;
-                    _ls[getCoordHash(getRandomCoordinate(size, Game.INIT_SNAKE_SIZE))]=l2;
+                    var _ls = {};
+                    _ls[getCoordHash(getRandomCoordinate(size, Game.INIT_SNAKE_SIZE))] = l1;
+                    _ls[getCoordHash(getRandomCoordinate(size, Game.INIT_SNAKE_SIZE))] = l2;
 
-                    collisions.push({clients:[position.client, key],letters:_ls});
+                    collisions.push({clients: [position.client, key], letters: _ls});
                 }
             }
         }
@@ -177,7 +178,8 @@ function getPlayersInitCoordinates(clients, size) {
 
     var ps = {};
     for (var i = 0, l = clients.length; i < l; i++) {
-        ps[clients[i].info.nickname] = getSnakeInitCoodinates(i, size, Game.INIT_SNAKE_SIZE);
+        //ps[clients[i].info.nickname] = getSnakeInitCoordinates(i, size, Game.INIT_SNAKE_SIZE);
+        ps[clients[i].info.nickname] = getSnakeInit(i, size, Game.INIT_SNAKE_SIZE);
     }
     return ps;
 }
@@ -211,7 +213,24 @@ function getRandomCoordinate(map_size, init_snake_size) {
     };
 }
 
-function getSnakeInitCoodinates(pos, map_size, init_snake_size) {
+function getSnakeInit(pos, map_size, init_snake_size) {
+    var start;
+    switch (pos) {
+        case 0:
+
+            start = {x: 0, y: 0};
+
+            break;
+        case 1:
+
+            start = {x: map_size - 1, y: map_size - 1};
+            break;
+    }
+
+    return start;
+}
+
+function getSnakeInitCoordinates(pos, map_size, init_snake_size) {
     var c, start, end, coords = [];
     switch (pos) {
         case 0:
