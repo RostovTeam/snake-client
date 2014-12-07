@@ -102,7 +102,7 @@ Game.prototype.checkGameState = function (position) {
     var coods_hash = [];
 
     for (var j = 0; j < position.coords.length; j++) {
-        coods_hash.push(position.coords[i][0] + ' ' + position.coords[i][1]);
+        coods_hash.push(position.coords[j][0] + ' ' + position.coords[j][1]);
     }
 
     var consumes = {};
