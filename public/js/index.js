@@ -57,11 +57,11 @@ socket.on('user.game.position', function(data){
 })
 
 socket.on('game.consume', function(data){
+    console.log(data);
     var key = Object.keys(data)[0];
     _game.delLetter(data[key]);
 })
 socket.on('game.collision',function(data){
-    console.log("collision")
     _game.snakes[data[0][0]].reset();
     _game.snakes[data[0][1]].reset();
 })
