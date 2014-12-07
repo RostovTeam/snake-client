@@ -42,8 +42,8 @@ game.prototype.stop = function () {
 }
 
 game.prototype.setSnake = function (key, positions){
-    console.log(positions);
-    if(key!=this.info.nickname)
+    //console.log(positions);
+    //if(key!=this.info.nickname)
         this.snakes[key] = new snake(positions);
 }
 
