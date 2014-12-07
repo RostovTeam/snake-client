@@ -12,7 +12,15 @@ var snake = function(cord){
         });
     }
 }
-
+snake.prototype.sync = function(cord){
+    this.segments = [];
+    for (var i = cord.length-1; i >= 0; i--) {
+        this.segments.push({
+            x: cord[i].x,
+            y: cord[i].y
+        });
+    }
+}
 
 snake.prototype.move = function(direction, end){
 
