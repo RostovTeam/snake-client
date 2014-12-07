@@ -45,7 +45,7 @@ function init() {
     data.wt = "le mot";
 
     //size of map and coordinates of letters
-    var size = this.clients.length * 50;
+    var size = this.clients.length * 15;
     data.s = size;
 
     //get letter coordinates
