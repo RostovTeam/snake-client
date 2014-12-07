@@ -43,9 +43,7 @@ function Clients() {
   }
 
   this.hasWaiting = function() {
-
-    console.log(JSON.stringify(this.waitingLangClients));
-
+    
     for (var k in this.waitingLangClients)
       if (this.waitingLangClients[k].length >= 2)
         return true;
@@ -83,7 +81,7 @@ function Clients() {
 }
 
 function getLanguangeHash(info) {
-  return info.native_lang + "_" + info.learning_lang;
+  return info ? info.native_lang + "_" + info.learning_lang : "_";
 }
 
 util.inherits(Clients, EventEmitter);
