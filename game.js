@@ -1,6 +1,6 @@
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
-var Words = require('./api');
+var Words = require('./dictionary');
 
 //var shared = require('./public/js/shared');
 
