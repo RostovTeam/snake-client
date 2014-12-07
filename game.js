@@ -153,7 +153,7 @@ Game.prototype.checkGameState = function (position) {
 
             //var _c = {};
             //_c[key] = l;
-            //delete  this.data.ws[key];
+            delete  this.data.ws[key];
             consumes.push(key);
             this.data.pl[position.client] += l;
         }
