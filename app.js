@@ -40,35 +40,36 @@ app.get('/', function (req, res) {
 
 var clients = new Clients();
 
+
+function createGame(user) {
+    if (clients.hasWaiting()) {
+
+        var waiting_game = clients.getWaiting();
+
+        if (!waiting_game || !waiting_game.length)
+            return;
+
+        var game = new Game(io, waiting_game);
+
+        game.on('ended', function () {
+            var self = this;
+            this.clients.forEach(function (v) {
+                clients.setWaiting(v);
+                v.game = null;
+                v.is_ready = false;
+                v.leave(self.room);
+            });
+        });
+    }
+}
+
+//clients.on('add', createGame);
+clients.on('setInfo', createGame);
+
 io.sockets.on('connection', function (socket) {
 
     console.log('user.connect' + "  " + socket.id);
     clients.add(socket);
-
-    function createGame(user) {
-        if (clients.hasWaiting()) {
-
-            var waiting_game = clients.getWaiting();
-
-            if (!waiting_game || !waiting_game.length)
-                return;
-
-            var game = new Game(io, waiting_game);
-
-            game.on('ended', function () {
-                var self = this;
-                this.clients.forEach(function (v) {
-                    clients.setWaiting(v);
-                    v.game = null;
-                    v.is_ready = false;
-                    v.leave(self.room);
-                });
-            });
-        }
-    }
-
-    //clients.on('add', createGame);
-    clients.on('setInfo', createGame);
 
     socket.on('user.info', function (data) {
         console.log('user.info' + "  " + JSON.stringify(data));
