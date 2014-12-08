@@ -67,6 +67,7 @@ socket.on('game.consume', function(data){
 socket.on('game.collision', function(data){
     for(var i = 0; i < data.length; i++){
         for(var j = 0; j < data[i].clients.length; j++){
+            console.log(1);
             var nik = data[i].clients[j].client;
             _game.snakes[nik].reset();
             _game.snakes[nik].delTail();

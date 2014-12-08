@@ -6,6 +6,7 @@ var snake = function(cord, size, size_field){
     this.segments = [];
     this.def_position = cord;
     this.max_y = size_field;
+    this.min_size = size;
 
     for(var i = 0; i < size; i++){
         if(i==0)
@@ -55,7 +56,8 @@ snake.prototype.sync = function(cord){
     */
 }
 snake.prototype.delTail = function (){
-    this.segments.pop();
+    if(this.segments.length>this.min_size)
+        this.segments.pop();
 }
 snake.prototype.move = function(direction, end){
 
