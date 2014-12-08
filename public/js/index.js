@@ -69,6 +69,7 @@ socket.on('game.collision', function(data){
         for(var j = 0; j < data[i].clients.length; j++){
             var nik = data[i].clients[j].client;
             _game.snakes[nik].reset();
+            _game.snakes[nik].delTail();
             if(info.nickname == nik){
                 $("#complite").html(data[i].clients[j].word);
             }

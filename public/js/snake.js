@@ -54,7 +54,9 @@ snake.prototype.sync = function(cord){
     console.log("x="+this.segments[0].x+" y="+this.segments[0].y);
     */
 }
-
+snake.prototype.delTail = function (){
+    this.segments.pop();
+}
 snake.prototype.move = function(direction, end){
 
     this.head = {
