@@ -46,8 +46,14 @@ game.prototype.addLetter = function (letter){
 }
 
 game.prototype.setSnake = function (key, positions){
-    if(key!=this.info.nickname)
-        this.snakes[key].sync(positions);
+
+    this.snakes[key].sync(positions);
+
+    var i = 0;
+    for (var key in this.snakes) {
+        this.canvas.drawSnake(this.snakes[key].segments, p_collors[i]);
+        i++;
+    }
 }
 
 game.prototype.delLetters = function (letters){
@@ -71,12 +77,6 @@ game.prototype.render = function () {
     this.canvas.drawWord(this.ws, '#9CF381');
 
     this.snakes[this.info.nickname].move(this.direction, end);
-    var i = 0;
-    for (var key in this.snakes) {
-        this.canvas.drawSnake(this.snakes[key].segments, p_collors[i]);
-        i++;
-    }
-
 }
 
 game.prototype.onKeydown = function (e) {
