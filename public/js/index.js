@@ -66,7 +66,11 @@ socket.on('game.consume', function(data){
 socket.on('game.collision', function(data){
     for(var i = 0; i < data.length; i++){
         for(var j = 0; j < data[i].clients.length; j++){
-            _game.snakes[data[i].clients[j]].reset();
+            var nik = data[i].clients[j].client;
+            _game.snakes[nik].reset();
+            if(info.nickname == data.client){
+                $("#complite").html(data[i].clients[j].word);
+            }
         }
         _game.addLetter(data[i].letters);
     }

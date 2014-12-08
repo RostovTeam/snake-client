@@ -5,7 +5,7 @@ var canvas = function (canvas, size){
     this.canvas = canvas;
     this.context = this.canvas.getContext('2d');
 
-    this.min_alpha    = 0.2;
+    this.min_alpha    = 0.6;
     this.max_alpha    = 1;
 
     this.size         = 20;
