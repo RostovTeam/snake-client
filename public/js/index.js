@@ -28,8 +28,18 @@ socket.on('game.init', function (data) {
     )
     _game.render();
 
-    $("#word").html(data.w);
-    $("#tword").html(data.wt);
+    $("#word").html();
+    $("#word").append($("<small></small>")
+              .text("collect: "));
+
+    $("#word").append(data.w);
+
+    $("#tword").html();
+
+    $("#tword").append($("<small></small>")
+               .text("translat: "));
+
+    $("#tword").append(data.wt);
 
     if(info.mode == 1){
         socket.emit('user.game.ready');
@@ -45,10 +55,12 @@ socket.on('game.init', function (data) {
 });
 
 socket.on('game.start',function(data){
-    _game.start();
-    $(document).keydown(function (e) {
-        _game.onKeydown(e);
-    });
+    if(!_game.game){
+        _game.start();
+        $(document).keydown(function (e) {
+            _game.onKeydown(e);
+        });
+    }
 })
 
 

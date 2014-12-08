@@ -50,7 +50,8 @@ Words.prototype.getWord = function (callback) {
         callback('noapi');
 
     request(url, function (error, response, body) {
-        console.log(error+' '+response+' '+body);
+        //console.log(error+' '+response+' '+body);
+
         var data = JSON.parse(body);
         var word = data.results.collection1[0].word;
         callback(word);
