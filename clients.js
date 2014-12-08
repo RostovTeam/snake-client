@@ -58,7 +58,7 @@ function Clients() {
 
     this.hasWaiting = function () {
 
-        console.log("has waiting: "+util.inspect(this.waitingLangClients));
+        console.log("has waiting: " + util.inspect(this.waitingLangClients));
         for (var k in this.waitingLangClients)
             if (this.waitingLangClients[k].length >= this.waitingLangClients[k].mode)
                 return true;
@@ -66,24 +66,40 @@ function Clients() {
         return false;
     };
 
-    this.getWaiting = function () {
+    this.getWaiting = function (client) {
         var clients = [];
 
-        for (var k in this.waitingLangClients) {
+        var langHash = getLanguangeHash(client.info);
 
-            var mode = this.waitingLangClients[k].mode;
-            if (this.waitingLangClients[k].length >= mode) {
-                clients = (this.waitingLangClients[k].splice(0, mode));
-                break;
-            }
+        clients.push(client);
+
+        var mode = this.waitingLangClients[langHash].mode;
+
+        for (var k = 0; k < this.waitingLangClients[langHash].length, clients.length < mode; k++) {
+            var _client = this.waitingLangClients[langHash][k];
+            if (!client.disconnected)
+                clients.push(_client);
         }
 
-        var has_disconnected = false;
-        clients.forEach(function (v) {
-            has_disconnected |= v.disconnected;
-        })
-        if (!clients.length || has_disconnected)
+        if(mode!=clients.length)
             return null;
+
+        //
+        //for (var k in this.waitingLangClients) {
+        //
+        //    var mode = this.waitingLangClients[k].mode;
+        //    if (this.waitingLangClients[k].length >= mode) {
+        //        clients = (this.waitingLangClients[k].splice(0, mode));
+        //        break;
+        //    }
+        //}
+        //
+        //var has_disconnected = false;
+        //clients.forEach(function (v) {
+        //    has_disconnected |= v.disconnected;
+        //})
+        //if (!clients.length || has_disconnected)
+        //    return null;
 
         return clients;
     }

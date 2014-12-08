@@ -41,25 +41,24 @@ app.get('/', function (req, res) {
 var clients = new Clients();
 
 function createGame(user) {
-    if (clients.hasWaiting()) {
 
-        var waiting_game = clients.getWaiting();
+    var waiting_game = clients.getWaiting(user);
 
-        if (!waiting_game || !waiting_game.length)
-            return;
+    if (!waiting_game || !waiting_game.length)
+        return;
 
-        var game = new Game(io, waiting_game);
+    var game = new Game(io, waiting_game);
 
-        game.on('ended', function () {
-            var self = this;
-            this.clients.forEach(function (v) {
-                clients.setWaiting(v);
-                v.game = null;
-                v.is_ready = false;
-                v.leave(self.room);
-            });
+    game.on('ended', function () {
+        var self = this;
+        this.clients.forEach(function (v) {
+            clients.setWaiting(v);
+            v.game = null;
+            v.is_ready = false;
+            v.leave(self.room);
         });
-    }
+    });
+
 }
 
 //clients.on('add', createGame);
