@@ -28,17 +28,14 @@ socket.on('game.init', function (data) {
     )
     _game.render();
 
-    $("#word").html();
+    $("#word").html("");
     $("#word").append($("<small></small>")
               .text("collect: "));
-
     $("#word").append(data.w);
 
-    $("#tword").html();
-
+    $("#tword").html("");
     $("#tword").append($("<small></small>")
                .text("translat: "));
-
     $("#tword").append(data.wt);
 
     if(info.mode == 1){
