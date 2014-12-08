@@ -79,6 +79,9 @@ function init() {
 Game.prototype.checkGameState = function (position) {
     //check collisions with other snakes
 
+    if (!this.data)
+        return false;
+
     this.data.p[position.client] = position.coords;
     var collisions = [];
 
