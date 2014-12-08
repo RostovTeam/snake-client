@@ -74,14 +74,17 @@ function Clients() {
         clients.push(client);
 
         var mode = this.waitingLangClients[langHash].mode;
-
-        for (var k = 0; k < this.waitingLangClients[langHash].length, clients.length < mode; k++) {
+        var k = 0;
+        while (k < this.waitingLangClients[langHash].length && clients.length < mode) {
             var _client = this.waitingLangClients[langHash][k];
-            if (!client.disconnected)
+
+            if (!_client.disconnected && client.id != _client.id)
                 clients.push(_client);
+            removeFromArray(client, this.waitingLangClients[langHash]);
+            k++;
         }
 
-        if(mode!=clients.length)
+        if (mode != clients.length)
             return null;
 
         //
