@@ -216,7 +216,13 @@ function getLetterCoordinates(word, size, players) {
 
     var coords = {};
     for (i = 0; i < letters.length; i++) {
-        coords[getCoordHash(getRandomCoordinate(size, Game.INIT_SNAKE_SIZE))] = letters[i];
+        var _c = getCoordHash(getRandomCoordinate(size, Game.INIT_SNAKE_SIZE));
+
+        //probability of getting non-unique coordinate low enough, so getting new coordinate until it's unique
+        while (coords.hasOwnProperty(_c))
+            _c = getCoordHash(getRandomCoordinate(size, Game.INIT_SNAKE_SIZE));
+
+        coords[_c] = letters[i];
     }
     return coords;
 }
