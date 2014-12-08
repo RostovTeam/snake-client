@@ -67,7 +67,7 @@ io.sockets.on('connection', function (socket) {
         }
     }
 
-    clients.on('add', createGame);
+    //clients.on('add', createGame);
     clients.on('setInfo', createGame);
 
     socket.on('user.info', function (data) {
