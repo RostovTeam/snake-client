@@ -183,7 +183,10 @@ Game.prototype.checkGameState = function (position) {
     for (var c in this.data.pl) {
         if (this.data.pl[c] == this.data.w) {
             //c have von
-            this.end(c + " has von");
+            //this.end(c + " has von");
+
+            init.call(this);
+            
             return false;
         }
     }
