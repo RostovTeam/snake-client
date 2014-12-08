@@ -40,14 +40,20 @@ var snake = function(cord, size, size_field){
     }
     */
 }
-snake.prototype.sync = function(cord){
+snake.prototype.sync = function(cord, call){
     this.segments = [];
-    for (var i = cord.length-1; i >= 0; i--) {
+
+    for (var i = 0; i < cord.length; i++) {
         this.segments.push({
             x: cord[i].x,
             y: cord[i].y
         });
     }
+    /*
+    console.log("end");
+    console.log("x="+this.segments[0].x+" y="+this.segments[0].y);
+    */
+    call();
 }
 
 snake.prototype.move = function(direction, end){
@@ -86,6 +92,11 @@ snake.prototype.move = function(direction, end){
 
 
     this.segments.unshift(this.head);
+
+    /*
+    console.log("move");
+    console.log("x="+this.segments[0].x+" y="+this.segments[0].y);
+    */
     socket.emit('user.game.position', this.segments);
 }
 
