@@ -47,7 +47,7 @@ function init() {
     this.dict.getWordAndTr(function (res) {
 
         this.data={};
-        
+
         var data = {};
         //get word to learn
         data.w = res.word;
@@ -185,9 +185,9 @@ Game.prototype.checkGameState = function (position) {
     for (var c in this.data.pl) {
         if (this.data.pl[c] == this.data.w) {
             //c have von
-            //this.end(c + " has von");
+            this.end(c + " has won");
 
-            init.call(this);
+            //init.call(this);
 
             return false;
         }
