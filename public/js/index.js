@@ -32,22 +32,23 @@ socket.on('game.init', function (data) {
     $("#tword").html(data.wt);
 
     if(info.mode == 1){
-        _game.start();
-        $(document).keydown(function (e) {
-            _game.onKeydown(e);
-        });
+        socket.emit('user.game.ready');
     }
     else{
-        socket.emit('user.game.ready');
-        socket.on('game.start',function(data){
-            _game.start();
-            $(document).keydown(function (e) {
-                _game.onKeydown(e);
-            });
-        })
+        $("#ready").show(600, function(){
+            $("#ready").on("click", function(){
+                socket.emit('user.game.ready');
+            })
+        });
     }
 });
 
+socket.on('game.start',function(data){
+    _game.start();
+    $(document).keydown(function (e) {
+        _game.onKeydown(e);
+    });
+})
 
 
 socket.on('user.game.position', function(data){
