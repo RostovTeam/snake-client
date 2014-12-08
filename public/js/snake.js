@@ -40,7 +40,7 @@ var snake = function(cord, size, size_field){
     }
     */
 }
-snake.prototype.sync = function(cord, call){
+snake.prototype.sync = function(cord){
     this.segments = [];
 
     for (var i = 0; i < cord.length; i++) {
@@ -53,7 +53,6 @@ snake.prototype.sync = function(cord, call){
     console.log("end");
     console.log("x="+this.segments[0].x+" y="+this.segments[0].y);
     */
-    call();
 }
 
 snake.prototype.move = function(direction, end){
