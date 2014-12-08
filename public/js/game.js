@@ -52,8 +52,7 @@ game.prototype.setSnake = function (key, positions){
 
 game.prototype.delLetters = function (letters){
     for(var i = 0; i <  letters.length; i++){
-        var key = Object.keys(letters[i])[0];
-        delete  this.ws[key];
+        delete  this.ws[letters[i]];
     }
 }
 

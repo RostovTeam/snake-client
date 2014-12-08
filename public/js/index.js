@@ -56,10 +56,10 @@ socket.on('user.game.position', function(data){
 });
 
 socket.on('game.consume', function(data){
-    var snake_name = Object.keys(data)[0];
-    _game.delLetters(data[snake_name]);
-    if(info.nickname == snake_name){
-        _game.snakes[snake_name].consume = true;
+    _game.delLetters(data.letters);
+    if(info.nickname == data.client){
+        _game.snakes[data.client].consume = true;
+        $("#complite").html(data.word);
     }
 });
 
