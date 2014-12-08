@@ -2,7 +2,7 @@
  * Created by vdaron on 07.12.14.
  */
 var snake = function(cord, size, size_field){
-    this.consume = false;
+    this.consume = 0;
     this.segments = [];
     this.def_position = cord;
     this.max_y = size_field;
@@ -83,11 +83,11 @@ snake.prototype.move = function(direction, end){
         this.head.y = end.y;
     }
 
-    if(!this.consume){
+    if(this.consume == 0){
         this.segments.pop();
     }
     else
-        this.consume = false
+        this.consume--;
 
 
     this.segments.unshift(this.head);
