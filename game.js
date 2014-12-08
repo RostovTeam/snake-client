@@ -7,7 +7,7 @@ var Words = require('./dictionary');
 var Game = function (io, clients) {
     this.io = io;
 
-    this.dict = new Words(clientsgit [0].info.native_lang,client[0].info.learning_lang);
+    this.dict = new Words(clients[0].info.native_lang,client[0].info.learning_lang);
 
     this.clients = clients;
 
