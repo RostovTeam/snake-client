@@ -13,7 +13,7 @@ var game = function (_canvas, snakes, word_l, size,info, snake_size) {
         score;
 */
 
-    this.speed = 8;
+    this.speed = 10;
     this.snakes = {};
     this.direction = 'down';
     this.direction_queue = 'down';
@@ -46,14 +46,14 @@ game.prototype.addLetter = function (letter){
 }
 
 game.prototype.setSnake = function (key, positions){
-
-    this.snakes[key].sync(positions);
-
-    var i = 0;
-    for (var key in this.snakes) {
-        this.canvas.drawSnake(this.snakes[key].segments, p_collors[i]);
-        i++;
-    }
+    var self = this;
+    this.snakes[key].sync(positions, function(){
+        var i = 0;
+        for (var key in self.snakes) {
+            self.canvas.drawSnake(self.snakes[key].segments, p_collors[i]);
+            i++;
+        }
+    });
 }
 
 game.prototype.delLetters = function (letters){

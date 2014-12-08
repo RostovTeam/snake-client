@@ -51,6 +51,7 @@ socket.on('game.init', function (data) {
 
 
 socket.on('user.game.position', function(data){
+    //console.log(data);
     var key = Object.keys(data)[0];
     _game.setSnake(key, data[key]);
 });
@@ -81,6 +82,7 @@ socket.on('game.reset', function(data){
 })
 
 socket.on('game.over', function(data){
+    _game.stop();
     alert(data.reason);
 })
 
