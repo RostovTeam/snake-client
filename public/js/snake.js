@@ -2,10 +2,11 @@
  * Created by vdaron on 07.12.14.
  */
 var snake = function(cord, size, size_field){
-    this.consume = false;
+    this.consume = 0;
     this.segments = [];
     this.def_position = cord;
     this.max_y = size_field;
+    this.min_size = size;
 
     for(var i = 0; i < size; i++){
         if(i==0)
@@ -54,7 +55,10 @@ snake.prototype.sync = function(cord){
     console.log("x="+this.segments[0].x+" y="+this.segments[0].y);
     */
 }
-
+snake.prototype.delTail = function (){
+    if(this.segments.length>this.min_size)
+        this.segments.pop();
+}
 snake.prototype.move = function(direction, end){
 
     this.head = {
@@ -83,11 +87,11 @@ snake.prototype.move = function(direction, end){
         this.head.y = end.y;
     }
 
-    if(!this.consume){
+    if(this.consume == 0){
         this.segments.pop();
     }
     else
-        this.consume = false
+        this.consume--;
 
 
     this.segments.unshift(this.head);
