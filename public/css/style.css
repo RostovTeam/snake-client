@@ -1,0 +1,18 @@
+body{
+    font-family: intro_lightregular;
+}
+label{
+    font-family: intro_boldregular;
+    font-weight: 400;
+}
+.modal-footer{
+    text-align: center;
+}
+.btn-primary{
+    background-color: #42809a;
+    border-color: #2d6075;
+}
+.btn-primary:hover{
+    background-color: #6c9baf;
+    border-color: #42809a;
+}

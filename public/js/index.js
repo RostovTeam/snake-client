@@ -38,6 +38,7 @@ socket.on('game.init', function (data) {
         $("#ready").show(600, function(){
             $("#ready").on("click", function(){
                 socket.emit('user.game.ready');
+                $("#ready").hide();
             })
         });
     }
@@ -52,7 +53,6 @@ socket.on('game.start',function(data){
 
 
 socket.on('user.game.position', function(data){
-    //console.log(data);
     var key = Object.keys(data)[0];
     _game.setSnake(key, data[key]);
 });
@@ -68,7 +68,6 @@ socket.on('game.consume', function(data){
 socket.on('game.collision', function(data){
     for(var i = 0; i < data.length; i++){
         for(var j = 0; j < data[i].clients.length; j++){
-            console.log(1);
             var nik = data[i].clients[j].client;
             _game.snakes[nik].reset();
             _game.snakes[nik].delTail();
@@ -85,10 +84,10 @@ socket.on('game.reset', function(data){
 })
 
 socket.on('game.over', function(data){
-    _game.stop();
-    //alert(data.reason);
 
+    _game.stop();
     socket.emit('user.info', info);
+
 })
 
 $(function(){
