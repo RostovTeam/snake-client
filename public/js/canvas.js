@@ -8,8 +8,8 @@ var canvas = function (canvas, size){
     this.min_alpha    = 0.4;
     this.max_alpha    = 1;
 
-    this.size         = 20;
-    this.size_grid    = 1;
+    this.size         = 30;
+    this.size_grid    = 2;
     this.sizeAll      = this.size+this.size_grid;
 
     this.context.canvas.width = size*this.sizeAll;
@@ -49,8 +49,8 @@ canvas.prototype.drawRect = function(x, y, color, alpha) {
 
 canvas.prototype.drawLetter = function(x, y, letter, color){
     this.context.fillStyle = color;
-    this.context.font = '13pt fixedsys';
-    this.context.fillText(letter, x * this.sizeAll+5, y * this.sizeAll+15);
+    this.context.font = '15pt fixedsys';
+    this.context.fillText(letter, x * this.sizeAll+10, y * this.sizeAll+20);
 }
 
 canvas.prototype.drawWord = function(ws,color){

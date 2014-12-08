@@ -85,7 +85,9 @@ socket.on('game.reset', function(data){
 
 socket.on('game.over', function(data){
     _game.stop();
-    alert(data.reason);
+    //alert(data.reason);
+
+    socket.emit('user.info', info);
 })
 
 $(function(){
@@ -93,6 +95,26 @@ $(function(){
         backdrop: 'static',
         keyboard: false
     });
+
+    if(window.languages.native){
+        for(var i = 0; i < window.languages.native.length; i++){
+            var lan = window.languages.native[i];
+            $("#native_lang")
+                .append($("<option></option>")
+                    .attr("value",lan.label)
+                    .text(lan.name));
+        }
+    }
+    if(window.languages.learning){
+        for(var i = 0; i < window.languages.learning.length; i++){
+            var lan = window.languages.learning[i];
+            $("#learning_lang")
+                .append($("<option></option>")
+                    .attr("value",lan.label)
+                    .text(lan.name));
+        }
+    }
+
 
     $('#save').on('click', function () {
         info = getFormData($('form'));
@@ -103,33 +125,4 @@ $(function(){
 
         socket.emit('user.info', info);
     });
-})
-
-
-
-
-
-//Draw our game
-function render() {
-/*
-    if (checkCollision(head.x, head.y, snake)) {
-        clearGameLoop();
-        drawGameover();
-        return;
-    }
-
-    if (head.x === apple.x && head.y === apple.y) {
-        //add new element to array
-        snake.unshift(head);
-        score++;
-        createApple();
-    } else {
-        //remove last element
-        snake.pop();
-        //add element to array, to keep the length
-        snake.unshift(head);
-    }
- */
-}
-
-
+});
