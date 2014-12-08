@@ -50,7 +50,7 @@ io.sockets.on('connection', function (socket) {
 
             var waiting_game = clients.getWaiting();
 
-            if (!waiting_game)
+            if (!waiting_game || !waiting_game.length)
                 return;
 
             var game = new Game(io, waiting_game);
