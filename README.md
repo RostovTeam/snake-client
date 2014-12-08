@@ -15,7 +15,7 @@ The aim of project is to provide easy and entertaining way to learn foreign lang
 ## Technologies used
 * nodejs
 * socket.io	
-* HTMLL5 canvas
+* HTML5 canvas
 * Jquery
 * Twitter Bootstrap
 
