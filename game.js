@@ -46,6 +46,8 @@ function init() {
 
     this.dict.getWordAndTr(function (res) {
 
+        this.data={};
+        
         var data = {};
         //get word to learn
         data.w = res.word;
