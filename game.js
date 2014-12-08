@@ -181,6 +181,7 @@ Game.prototype.checkGameState = function (position) {
         if (this.data.pl[c] == this.data.w) {
             //c have von
             this.end(c + " has von");
+            return false;
         }
     }
     return true;
