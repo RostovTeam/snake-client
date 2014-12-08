@@ -81,7 +81,7 @@ io.sockets.on('connection', function (socket) {
 
         console.log('user.game.ready' + "  " + this.info.nickname);
         //send (in room) message to start game
-        if (this.game.isTeamReady()) {
+        if (this.game.isTeamReady() && this.game) {
             console.log('game.start' + "  " + this.game.room);
             io.sockets.in(this.game.room).emit('game.start');
         }

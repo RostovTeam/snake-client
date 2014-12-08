@@ -186,7 +186,7 @@ Game.prototype.checkGameState = function (position) {
             //this.end(c + " has von");
 
             init.call(this);
-            
+
             return false;
         }
     }
