@@ -81,7 +81,7 @@ function getUrl(lang) {
     var offset = Math.ceil(Math.random() * (l.count - 0));
     var limit = 1;
 
-    return base + '?kimlimit=' + limit + '&kimoffset=' + offset;
+    return base + '&kimlimit=' + limit + '&kimoffset=' + offset;
 }
 
 module.exports = Words;
