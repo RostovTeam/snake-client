@@ -40,7 +40,6 @@ app.get('/', function (req, res) {
 
 var clients = new Clients();
 
-
 function createGame(user) {
     if (clients.hasWaiting()) {
 
@@ -102,11 +101,6 @@ io.sockets.on('connection', function (socket) {
         if (this.game.checkGameState({client: this.info.nickname, coords: data}) && this.game)
             io.sockets.in(this.game.room).emit('user.game.position', p);
     });
-
-    //socket.on('user.game.consume', function (data) {
-    //    console.log('user.game.consume' + "  " + JSON.stringify(data));
-    //    io.sockets.in(this.game.room).emit('user.game.consume', data);
-    //});
 });
 
 server.listen(app.get('port'), function () {
