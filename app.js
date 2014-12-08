@@ -98,7 +98,7 @@ io.sockets.on('connection', function (socket) {
 
         //console.log('user.game.position' + "  " + JSON.stringify(p));
 
-        if (this.game.checkGameState({client: this.info.nickname, coords: data}))
+        if (this.game.checkGameState({client: this.info.nickname, coords: data}) && this.game)
             io.sockets.in(this.game.room).emit('user.game.position', p);
     });
 
