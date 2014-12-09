@@ -16,7 +16,7 @@
     "passport": "^0.2.1",
     "passport-facebook": "^1.0.3",
     "request": "^2.49.0",
-    "socket.io": "^1.2.1"
+    "socket.io": "^1.2.1",
     "iconv": "^2.1.4",
     "socket.io": "^1.2.1",
     "request": "~2.49.0",
