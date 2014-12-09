@@ -1,6 +1,6 @@
 # Snake
 
-##A project started by team RostovTeam for Koding's First Global Virtual Hackathon
+##A project started by RostovTeam for Koding's First Global Virtual Hackathon
 
 The aim of project is to provide easy and entertaining way to learn foreign language spelling. Our solution is old well-known tetris game snake in which player should collect apples on field. In our game snake collects letters of 
 most frequent words of learning language, which help players to memorize order of letters in word and also its translation.
