@@ -13,7 +13,7 @@ var game = function (_canvas, snakes, word_l, size,info, snake_size) {
         score;
 */
 
-    this.speed = 5;
+    this.speed = 8;
     this.snakes = {};
     this.direction = 'down';
     this.direction_queue = 'down';
