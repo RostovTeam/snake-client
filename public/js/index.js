@@ -54,8 +54,16 @@ socket.on('game.init', function (data) {
 });
 
 socket.on('game.start',function(data){
-    console.log("start");
     if(!_game.game){
+        console.log("start");
+        _game.start();
+        $(document).keydown(function (e) {
+            _game.onKeydown(e);
+        });
+    }
+    else{
+        _game.stop();
+        console.log("stop");
         _game.start();
         $(document).keydown(function (e) {
             _game.onKeydown(e);
