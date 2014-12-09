@@ -23,6 +23,7 @@ socket.on('game.init', function (data) {
     console.log("init");
     if(_game){
         _game.stop();
+        _game.game = null;
         delete _game;
         console.log("stop");
     }
