@@ -261,11 +261,11 @@ function getSnakeInit(pos, map_size, init_snake_size) {
 
             start = {x: map_size - 1, y: map_size - 1};
             break;
-        case 3:
+        case 2:
 
             start = {x: map_size - 1, y: 0};
             break;
-        case 4:
+        case 3:
 
             start = {x: 0, y: map_size - 1};
             break;
