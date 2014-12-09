@@ -6,7 +6,8 @@ var socket = io.connect(window.location.protocol + '//' + window.location.host, 
         'xhr-polling',
         'jsonp-polling',
         'polling'
-    ]
+    ],
+    'secure' : true
 });
 
 
@@ -18,6 +19,14 @@ var p_collors = ["#42809a","#f85758"],
 
 
 socket.on('game.init', function (data) {
+
+    console.log("init");
+    if(_game){
+        _game.stop();
+        _game.game = null;
+        delete _game;
+        console.log("stop");
+    }
     _game = new game(
         $('#canvas')[0],
         data.p,
@@ -27,7 +36,6 @@ socket.on('game.init', function (data) {
         data.ss
     )
     _game.render();
-
     $("#word").html("");
     $("#word").append($("<small></small>")
               .text("collect: "));
@@ -53,6 +61,15 @@ socket.on('game.init', function (data) {
 
 socket.on('game.start',function(data){
     if(!_game.game){
+        console.log("start");
+        _game.start();
+        $(document).keydown(function (e) {
+            _game.onKeydown(e);
+        });
+    }
+    else{
+        clearInterval(_game.game);
+        console.log("stop 2");
         _game.start();
         $(document).keydown(function (e) {
             _game.onKeydown(e);
