@@ -53,11 +53,12 @@ socket.on('game.init', function (data) {
 
 socket.on('game.start',function(data){
     if(!_game.game){
-        _game.start();
-        $(document).keydown(function (e) {
-            _game.onKeydown(e);
-        });
+        _game.stop();
     }
+    _game.start();
+    $(document).keydown(function (e) {
+        _game.onKeydown(e);
+    });
 })
 
 
