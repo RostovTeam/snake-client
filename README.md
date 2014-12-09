@@ -20,5 +20,5 @@ most frequent words of learning language, which help players to memorize order o
 * Twitter Bootstrap
 
 ## Services used
- * kimonolabs.com for creating an API for sites providing words frequency lists.
+ * kimonolabs.com is used for creating an API for sites providing words frequency lists.
  * Google Translate API
