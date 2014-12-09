@@ -6,7 +6,8 @@ var socket = io.connect(window.location.protocol + '//' + window.location.host, 
         'xhr-polling',
         'jsonp-polling',
         'polling'
-    ]
+    ],
+    'secure': true
 });
 
 
