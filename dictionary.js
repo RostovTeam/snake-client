@@ -51,9 +51,14 @@ Words.prototype.getWord = function (callback) {
 
     request(url, function (error, response, body) {
         //console.log(error+' '+response+' '+body);
-
-        var data = JSON.parse(body);
-        var word = data.results.collection1[0].word;
+        var word;
+        try {
+            var data = JSON.parse(body);
+            var word = data.results.collection1[0].word;
+        }catch (e)
+        {
+            word="kimonodown";
+        }
         callback(word);
     });
 }
