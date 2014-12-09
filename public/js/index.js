@@ -21,6 +21,11 @@ var p_collors = ["#42809a","#f85758"],
 socket.on('game.init', function (data) {
 
     console.log("init");
+    if(_game){
+        _game.stop();
+        delete _game;
+        console.log("stop");
+    }
     _game = new game(
         $('#canvas')[0],
         data.p,
@@ -63,7 +68,7 @@ socket.on('game.start',function(data){
     }
     else{
         clearInterval(_game.game);
-        console.log("stop");
+        console.log("stop 2");
         _game.start();
         $(document).keydown(function (e) {
             _game.onKeydown(e);
