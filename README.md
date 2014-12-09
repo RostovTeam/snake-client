@@ -10,7 +10,7 @@ most frequent words of learning language, which help players to memorize order o
 * Your snake should 'eat' letters in correct order;
 * Coming into wrong letter  will  move snake to initial position;
 * Collisions with another players will move snake to initial position and take away several collected letters;
-* The player who collect letters of word wins(there is only one set of letters for word on map).
+* The player who collect letters of word wins(there is only one full set of letters for word on map).
 
 ## Technologies used
 * nodejs
