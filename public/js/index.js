@@ -37,7 +37,7 @@ socket.on('game.init', function (data) {
 
     $("#tword").html("");
     $("#tword").append($("<small></small>")
-        .text("translat: "));
+        .text("translation: "));
     $("#tword").append(data.wt);
 
     if (info.mode == 1) {
