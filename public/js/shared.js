@@ -6,7 +6,7 @@
     };
 
     container.languages = {
-        native: [{label:'fr',name:'Français'},{label:'de',name:'Deutsch'},{label:'en',name:'English'},{lable:'ru',name:'Russian'}],
+        native: [{label:'fr',name:'Français'},{label:'de',name:'Deutsch'},{label:'en',name:'English'},{label:'ru', name:'Russian'}],
         learning: [{label:'fr',name:'Français'},{label:'de',name:'Deutsch'},{label:'en',name:'English'}]
     };
 })(typeof window !== 'undefined' ? window : module.exports);
