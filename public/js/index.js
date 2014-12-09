@@ -53,7 +53,7 @@ socket.on('game.init', function (data) {
 });
 
 socket.on('game.start',function(data){
-    if(!_game.game){
+    if(_game.game == null){
         _game.stop();
     }
     _game.start();
