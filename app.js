@@ -80,7 +80,7 @@ io.sockets.on('connection', function (socket) {
 
         console.log('user.game.ready' + "  " + this.info.nickname);
         //send (in room) message to start game
-        if (this.game.isTeamReady() && this.game) {
+        if (this.game && this.game.isTeamReady() ) {
             console.log('game.start' + "  " + this.game.room);
             io.sockets.in(this.game.room).emit('game.start');
         }
@@ -97,7 +97,7 @@ io.sockets.on('connection', function (socket) {
 
         //console.log('user.game.position' + "  " + JSON.stringify(p));
 
-        if (this.game.checkGameState({client: this.info.nickname, coords: data}) && this.game)
+        if ( this.game && this.game.checkGameState({client: this.info.nickname, coords: data}))
             io.sockets.in(this.game.room).emit('user.game.position', p);
     });
 });

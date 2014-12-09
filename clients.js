@@ -80,13 +80,14 @@ function Clients() {
 
             if (!_client.disconnected && client.id != _client.id)
                 clients.push(_client);
-            removeFromArray(client, this.waitingLangClients[langHash]);
+            removeFromArray(_client, this.waitingLangClients[langHash]);
             k++;
         }
 
         if (mode != clients.length)
             return null;
 
+        removeFromArray(client, this.waitingLangClients[langHash]);
         //
         //for (var k in this.waitingLangClients) {
         //
