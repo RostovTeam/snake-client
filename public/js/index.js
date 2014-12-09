@@ -7,7 +7,7 @@ var socket = io.connect(window.location.protocol + '//' + window.location.host, 
         'jsonp-polling',
         'polling'
     ],
-    'secure': true
+    'secure' : true
 });
 
 
@@ -53,13 +53,12 @@ socket.on('game.init', function (data) {
 });
 
 socket.on('game.start',function(data){
-    if(_game.game == null){
-        _game.stop();
+    if(!_game.game){
+        _game.start();
+        $(document).keydown(function (e) {
+            _game.onKeydown(e);
+        });
     }
-    _game.start();
-    $(document).keydown(function (e) {
-        _game.onKeydown(e);
-    });
 })
 
 
