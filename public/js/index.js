@@ -108,13 +108,6 @@ $(function () {
         keyboard: false
     });
 
-    VK.init(function() {
-        console.log("vk");
-    }, function() {
-        // API initialization failed
-        // Can reload page here
-    }, '5.27');
-
     if (window.languages.native) {
         for (var i = 0; i < window.languages.native.length; i++) {
             var lan = window.languages.native[i];
