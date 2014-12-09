@@ -109,7 +109,7 @@ $(function () {
     });
 
     VK.init(function() {
-
+        console.log("vk");
     }, function() {
         // API initialization failed
         // Can reload page here
