@@ -7,6 +7,7 @@ var snake = function(cord, size, size_field){
     this.def_position = cord;
     this.max_y = size_field;
     this.min_size = size;
+    this.word = "";
 
     for(var i = 0; i < size; i++){
         if(i==0)
@@ -40,6 +41,9 @@ var snake = function(cord, size, size_field){
         });
     }
     */
+}
+snake.prototype.setWord = function(word){
+    this.word = word;
 }
 snake.prototype.sync = function(cord){
     this.segments = [];

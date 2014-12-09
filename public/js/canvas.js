@@ -70,8 +70,12 @@ canvas.prototype.drawSnake = function (snake, color){
 
         if (snake.length / 2 >= 1 && i >= snake.length / 2) {
             this.drawRect(snake[i].x, snake[i].y, color, this.max_alpha + (snake.length / 2 - i) * step_alpha);
+            if(snake[i].letter)
+                this.drawLetter(snake[i].x, snake[i].y, snake[i].letter, '#3d3d3d');
         } else {
             this.drawRect(snake[i].x, snake[i].y, color, 1);
+            if(snake[i].letter)
+                this.drawLetter(snake[i].x, snake[i].y, snake[i].letter, '#3d3d3d');
         }
     }
 }

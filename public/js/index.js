@@ -7,26 +7,20 @@ var socket = io.connect(window.location.protocol + '//' + window.location.host, 
         'jsonp-polling',
         'polling'
     ],
-    'secure' : true
+    'secure': true
 });
 
 
 var ctx = $('#canvas')[0].getContext('2d'),
     _game;
 
-var p_collors = ["#42809a","#f85758"],
+var p_collors = ["#42809a", "#f85758"],
     info;
 
 
 socket.on('game.init', function (data) {
 
     console.log("init");
-    if(_game){
-        _game.stop();
-        _game.game = null;
-        delete _game;
-        console.log("stop");
-    }
     _game = new game(
         $('#canvas')[0],
         data.p,
@@ -38,20 +32,20 @@ socket.on('game.init', function (data) {
     _game.render();
     $("#word").html("");
     $("#word").append($("<small></small>")
-              .text("collect: "));
+        .text("collect: "));
     $("#word").append(data.w);
 
     $("#tword").html("");
     $("#tword").append($("<small></small>")
-               .text("translat: "));
+        .text("translat: "));
     $("#tword").append(data.wt);
 
-    if(info.mode == 1){
+    if (info.mode == 1) {
         socket.emit('user.game.ready');
     }
-    else{
-        $("#ready").show(600, function(){
-            $("#ready").on("click", function(){
+    else {
+        $("#ready").show(600, function () {
+            $("#ready").on("click", function () {
                 socket.emit('user.game.ready');
                 $("#ready").hide();
             })
@@ -59,45 +53,37 @@ socket.on('game.init', function (data) {
     }
 });
 
-socket.on('game.start',function(data){
-    if(!_game.game){
-        console.log("start");
-        _game.start();
-        $(document).keydown(function (e) {
-            _game.onKeydown(e);
-        });
-    }
-    else{
-        clearInterval(_game.game);
-        console.log("stop 2");
-        _game.start();
-        $(document).keydown(function (e) {
-            _game.onKeydown(e);
-        });
-    }
+socket.on('game.start', function (data) {
+    _game.stop();
+    _game.start();
+    $(document).keydown(function (e) {
+        _game.onKeydown(e);
+    });
 })
 
 
-socket.on('user.game.position', function(data){
+socket.on('user.game.position', function (data) {
     var key = Object.keys(data)[0];
     _game.setSnake(key, data[key]);
 });
 
-socket.on('game.consume', function(data){
+socket.on('game.consume', function (data) {
     _game.delLetters(data.letters);
-    if(info.nickname == data.client){
+    _game.snakes[data.client].setWord(data.word);
+    if (info.nickname == data.client) {
         _game.snakes[data.client].consume = true;
         $("#complite").html(data.word);
     }
 });
 
-socket.on('game.collision', function(data){
-    for(var i = 0; i < data.length; i++){
-        for(var j = 0; j < data[i].clients.length; j++){
+socket.on('game.collision', function (data) {
+    for (var i = 0; i < data.length; i++) {
+        for (var j = 0; j < data[i].clients.length; j++) {
             var nik = data[i].clients[j].client;
             _game.snakes[nik].reset();
             _game.snakes[nik].delTail();
-            if(info.nickname == nik){
+            _game.snakes[nik].setWord(data[i].clients[j].word);
+            if (info.nickname == nik) {
                 $("#complite").html(data[i].clients[j].word);
             }
         }
@@ -105,38 +91,38 @@ socket.on('game.collision', function(data){
     }
 });
 
-socket.on('game.reset', function(data){
+socket.on('game.reset', function (data) {
     _game.snakes[data.client].reset();
 })
 
-socket.on('game.over', function(data){
+socket.on('game.over', function (data) {
 
     _game.stop();
     socket.emit('user.info', info);
 
 })
 
-$(function(){
+$(function () {
     $('#myModal1').modal({
         backdrop: 'static',
         keyboard: false
     });
 
-    if(window.languages.native){
-        for(var i = 0; i < window.languages.native.length; i++){
+    if (window.languages.native) {
+        for (var i = 0; i < window.languages.native.length; i++) {
             var lan = window.languages.native[i];
             $("#native_lang")
                 .append($("<option></option>")
-                    .attr("value",lan.label)
+                    .attr("value", lan.label)
                     .text(lan.name));
         }
     }
-    if(window.languages.learning){
-        for(var i = 0; i < window.languages.learning.length; i++){
+    if (window.languages.learning) {
+        for (var i = 0; i < window.languages.learning.length; i++) {
             var lan = window.languages.learning[i];
             $("#learning_lang")
                 .append($("<option></option>")
-                    .attr("value",lan.label)
+                    .attr("value", lan.label)
                     .text(lan.name));
         }
     }
