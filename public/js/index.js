@@ -62,7 +62,7 @@ socket.on('game.start',function(data){
         });
     }
     else{
-        _game.stop();
+        clearInterval(_game.game);
         console.log("stop");
         _game.start();
         $(document).keydown(function (e) {
