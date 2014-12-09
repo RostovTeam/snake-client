@@ -97,6 +97,7 @@ game.prototype.onKeydown = function (e) {
         this.direction_queue = 'right';
     } else if (key === 40 && this.direction !== 'up') {
         this.direction_queue = 'down';
+        VK.callMethod('scrollWindow', 0);
     } else if (key === 13) {
         //initGame();
     }
