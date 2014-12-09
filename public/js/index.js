@@ -19,6 +19,8 @@ var p_collors = ["#42809a","#f85758"],
 
 
 socket.on('game.init', function (data) {
+
+    console.log("init");
     _game = new game(
         $('#canvas')[0],
         data.p,
@@ -28,7 +30,6 @@ socket.on('game.init', function (data) {
         data.ss
     )
     _game.render();
-
     $("#word").html("");
     $("#word").append($("<small></small>")
               .text("collect: "));
@@ -53,6 +54,7 @@ socket.on('game.init', function (data) {
 });
 
 socket.on('game.start',function(data){
+    console.log("start");
     if(!_game.game){
         _game.start();
         $(document).keydown(function (e) {
