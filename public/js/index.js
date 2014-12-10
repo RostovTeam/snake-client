@@ -40,17 +40,10 @@ socket.on('game.init', function (data) {
         .text("translation: "));
     $("#tword").append(data.wt);
 
-    if (info.mode == 1) {
-        socket.emit('user.game.ready');
-    }
-    else {
-        $("#ready").show(600, function () {
-            $("#ready").on("click", function () {
-                socket.emit('user.game.ready');
-                $("#ready").hide();
-            })
-        });
-    }
+    $("#ready").show(600, function () {
+
+    });
+
 });
 
 socket.on('game.start', function (data) {
@@ -97,6 +90,7 @@ socket.on('game.reset', function (data) {
 
 socket.on('game.over', function (data) {
 
+    console.log("end");
     _game.stop();
     socket.emit('user.info', info);
 
@@ -107,6 +101,12 @@ $(function () {
         backdrop: 'static',
         keyboard: false
     });
+
+    $("#ready").on("click", function () {
+        console.log("click");
+        socket.emit('user.game.ready');
+        $("#ready").hide();
+    })
 
     if (window.languages.native) {
         for (var i = 0; i < window.languages.native.length; i++) {
