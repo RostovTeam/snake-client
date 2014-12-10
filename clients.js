@@ -27,7 +27,7 @@ function Clients() {
     this.setInfo = function (client, info) {
 
         var prev_langHash = getLanguangeHash(client.info);
-        removeFromArray(client, this.waitingLangClients[prev_langHash]);
+        removeClientFromArray(client, this.waitingLangClients[prev_langHash]);
 
         client.info = info;
         this.setWaiting(client);
@@ -39,19 +39,14 @@ function Clients() {
             return;
         }
 
-        var prev_langHash = getLanguangeHash(client.info);
-        removeFromArray(client, this.waitingLangClients[prev_langHash]);
+        var langHash = getLanguangeHash(client.info);
+
+        removeClientFromArray(client, this.waitingLangClients[langHash]);
 
         var mode = client.info.mode;
 
-        if (!mode) {
-            mode = 1;
-        }
-        else {
-            mode = getPlayMode(mode);
-        }
+        mode = getPlayMode(mode);
 
-        var langHash = getLanguangeHash(client.info);
         this.waitingLangClients[langHash] = this.waitingLangClients[langHash] || [];
         this.waitingLangClients[langHash].push(client);
         this.waitingLangClients[langHash].mode = mode;
@@ -71,30 +66,14 @@ function Clients() {
 
             if (!_client.disconnected && client.id != _client.id)
                 clients.push(_client);
-            removeFromArray(_client, this.waitingLangClients[langHash]);
+            removeClientFromArray(_client, this.waitingLangClients[langHash]);
             k++;
         }
 
         if (mode != clients.length)
             return null;
 
-        removeFromArray(client, this.waitingLangClients[langHash]);
-        //
-        //for (var k in this.waitingLangClients) {
-        //
-        //    var mode = this.waitingLangClients[k].mode;
-        //    if (this.waitingLangClients[k].length >= mode) {
-        //        clients = (this.waitingLangClients[k].splice(0, mode));
-        //        break;
-        //    }
-        //}
-        //
-        //var has_disconnected = false;
-        //clients.forEach(function (v) {
-        //    has_disconnected |= v.disconnected;
-        //})
-        //if (!clients.length || has_disconnected)
-        //    return null;
+        removeClientFromArray(client, this.waitingLangClients[langHash]);
 
         return clients;
     }
@@ -105,10 +84,10 @@ function Clients() {
         if (info) {
             var langHash = getLanguangeHash(info);
 
-            removeFromArray(client, this.waitingLangClients[langHash]);
+            removeClientFromArray(client, this.waitingLangClients[langHash]);
         }
 
-        removeFromArray(client, this.clients);
+        removeClientFromArray(client, this.clients);
     }
 }
 
@@ -116,13 +95,17 @@ function getPlayMode(mode) {
     return mode < 1 ? 1 : (mode > 3 ? 3 : mode);
 }
 
-function removeFromArray(obj, array) {
-    if (!array || !array.hasOwnProperty('indexOf') || !array.hasOwnProperty('splice'))
+function removeClientFromArray(obj, array) {
+    if (!array || !array.length )
         return;
 
-    var index = array.indexOf(obj);
-    if (index > -1) {
-        array.splice(index, 1);
+    for (var i = 0; i < array.length; i++) {
+        var _item = array[i];
+
+        if (_item.id == obj.id) {
+            array.splice(i,1);
+            i--;
+        }
     }
 }
 

@@ -12,15 +12,6 @@ var Game = function (io, clients) {
     this.clients = clients;
 
     init.call(this);
-
-    this.isTeamReady = function () {
-        var _is_team_ready = 1;
-        this.clients.forEach(function (v) {
-            _is_team_ready &= v.is_ready;
-        });
-
-        return _is_team_ready;
-    }
 };
 
 Game.INIT_SNAKE_SIZE = 2;
@@ -75,7 +66,15 @@ function init() {
             self.data.pl[self.clients[i].info.nickname] = "";
         }
     });
+}
 
+Game.prototype.isTeamReady = function () {
+    var _is_team_ready = 1;
+    this.clients.forEach(function (v) {
+        _is_team_ready &= v.is_ready;
+    });
+
+    return _is_team_ready;
 }
 
 Game.prototype.checkGameState = function (position) {
