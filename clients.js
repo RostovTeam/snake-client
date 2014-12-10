@@ -31,7 +31,6 @@ function Clients() {
 
         client.info = info;
         this.setWaiting(client);
-        this.emit('setInfo', client);
     }
 
     this.setWaiting = function (client) {
@@ -48,6 +47,8 @@ function Clients() {
         this.waitingLangClients[langHash] = this.waitingLangClients[langHash] || [];
         this.waitingLangClients[langHash].push(client);
         this.waitingLangClients[langHash].mode = client.info.mode;
+
+        this.emit('setWaiting', client);
     };
 
     this.getWaiting = function (client) {

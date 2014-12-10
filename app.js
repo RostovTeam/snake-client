@@ -61,7 +61,7 @@ function createGame(user) {
 }
 
 //clients.on('add', createGame);
-clients.on('setInfo', createGame);
+clients.on('setWaiting', createGame);
 
 io.sockets.on('connection', function (socket) {
 
