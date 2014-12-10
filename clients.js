@@ -27,13 +27,10 @@ function Clients() {
     this.setInfo = function (client, info) {
 
         var prev_langHash = getLanguangeHash(client.info);
-
         removeFromArray(client, this.waitingLangClients[prev_langHash]);
 
         client.info = info;
-
         this.setWaiting(client);
-
         this.emit('setInfo', client);
     }
 
@@ -41,6 +38,10 @@ function Clients() {
         if (!client.info) {
             return;
         }
+
+        var prev_langHash = getLanguangeHash(client.info);
+        removeFromArray(client, this.waitingLangClients[prev_langHash]);
+
         var mode = client.info.mode;
 
         if (!mode) {
@@ -54,16 +55,6 @@ function Clients() {
         this.waitingLangClients[langHash] = this.waitingLangClients[langHash] || [];
         this.waitingLangClients[langHash].push(client);
         this.waitingLangClients[langHash].mode = mode;
-    }
-
-    this.hasWaiting = function () {
-
-        console.log("has waiting: " + util.inspect(this.waitingLangClients));
-        for (var k in this.waitingLangClients)
-            if (this.waitingLangClients[k].length >= this.waitingLangClients[k].mode)
-                return true;
-
-        return false;
     };
 
     this.getWaiting = function (client) {

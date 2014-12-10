@@ -52,7 +52,6 @@ function createGame(user) {
     game.on('ended', function () {
         var self = this;
         this.clients.forEach(function (v) {
-            clients.setWaiting(v);
             v.game = null;
             v.is_ready = false;
             v.leave(self.room);
@@ -84,6 +83,11 @@ io.sockets.on('connection', function (socket) {
             console.log('game.start' + "  " + this.game.room);
             io.sockets.in(this.game.room).emit('game.start');
         }
+    });
+
+    socket.on('user.game.continue', function () {
+
+        clients.setWaiting(this);
     });
 
     socket.on('user.game.position', function (data) {

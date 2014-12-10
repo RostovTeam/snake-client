@@ -274,6 +274,7 @@ function getSnakeInit(pos, map_size, init_snake_size) {
     return start;
 }
 
+//deprecated
 function getSnakeInitCoordinates(pos, map_size, init_snake_size) {
     var c, start, end, coords = [];
     switch (pos) {
