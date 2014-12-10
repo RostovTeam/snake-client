@@ -39,17 +39,15 @@ function Clients() {
             return;
         }
 
+        client.info.mode= getPlayMode(client.info.mode);
+
         var langHash = getLanguangeHash(client.info);
 
         removeClientFromArray(client, this.waitingLangClients[langHash]);
 
-        var mode = client.info.mode;
-
-        mode = getPlayMode(mode);
-
         this.waitingLangClients[langHash] = this.waitingLangClients[langHash] || [];
         this.waitingLangClients[langHash].push(client);
-        this.waitingLangClients[langHash].mode = mode;
+        this.waitingLangClients[langHash].mode = client.info.mode;
     };
 
     this.getWaiting = function (client) {
@@ -66,15 +64,15 @@ function Clients() {
 
             if (!_client.disconnected && client.id != _client.id)
                 clients.push(_client);
-            removeClientFromArray(_client, this.waitingLangClients[langHash]);
             k++;
         }
 
         if (mode != clients.length)
             return null;
 
-        removeClientFromArray(client, this.waitingLangClients[langHash]);
-
+        clients.forEach(function(v){
+            removeClientFromArray(v, this.waitingLangClients[langHash]);
+        },this);
         return clients;
     }
 
