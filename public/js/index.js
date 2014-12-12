@@ -14,7 +14,7 @@ var socket = io.connect(window.location.protocol + '//' + window.location.host, 
 var ctx = $('#canvas')[0].getContext('2d'),
     _game;
 
-var p_collors = ["#42809a", "#f85758"],
+var p_collors = ["#42809a", "#f85758", "#429a76", "#b9742b"],
     info;
 
 
@@ -98,7 +98,7 @@ socket.on('game.reset', function (data) {
 socket.on('game.over', function (data) {
 
     _game.stop();
-    socket.emit('user.info', info);
+    socket.emit('user.game.continue');
 
 })
 
