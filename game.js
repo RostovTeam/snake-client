@@ -23,7 +23,6 @@ function init() {
     this.room = this.clients.map(function (v) {
         return v.id
     }).join('_');
-
     for (var i = 0, l = this.clients.length; i < l; i++) {
         this.clients[i].join(this.room);
         this.clients[i].game = this;

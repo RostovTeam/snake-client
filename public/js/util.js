@@ -1,6 +1,7 @@
 /**
  * Created by vdaron on 07.12.14.
  */
+
 function getFormData($form) {
     var unindexed_array = $form.serializeArray();
     var indexed_array = {};

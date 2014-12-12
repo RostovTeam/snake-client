@@ -43,6 +43,10 @@ var clients = new Clients();
 function createGame(user) {
 
     var waiting_game = clients.getWaiting(user);
+    console.log("--------");
+    if(waiting_game)
+        console.log(waiting_game.length);
+
 
     if (!waiting_game || !waiting_game.length)
         return;

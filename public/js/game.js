@@ -100,6 +100,7 @@ game.prototype.onKeydown = function (e) {
     } else if (key === 13) {
         //initGame();
     }
+    e.preventDefault();
 }
 
 game.prototype.end = function () {
